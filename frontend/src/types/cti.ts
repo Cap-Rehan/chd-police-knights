@@ -40,13 +40,35 @@ export interface EnrichmentData {
 }
 
 export interface PipelineStep {
-  id: 'extract' | 'classify' | 'enrich' | 'report';
+  id: 'extract' | 'classify' | 'route' | 'enrich' | 'report';
   name: string;
   subtext: string;
   status: 'DONE' | 'ENRICHED' | 'BYPASSED' | 'RUNNING' | 'PENDING';
   timestamp: string;
   durationMs: number;
   details: string;
+}
+
+export interface LinkedAlias {
+  alias: string;
+  platform: 'Telegram' | 'Agora Market' | 'Bohemia Mirror' | 'Exploit.in' | 'WhiteHouse Market' | 'Hydra Historical';
+  matchReason: 'SHARED_PGP_KEY' | 'SHARED_CRYPTO_WALLET' | 'COMMUNICATION_HANDLE' | 'GEOGRAPHIC_MUNICIPAL_CORRELATION';
+  confidence: number;
+  matchedIndicator: string; // e.g. "PGP: 0xB8C24D90" or "Wallet: bc1q9d8sf..."
+  discoveredDate: string;
+  activeStatus: 'ACTIVE' | 'MIGRATED' | 'TAKEN_DOWN';
+}
+
+export interface CopilotIntelligence {
+  plainEnglishSummary: string;
+  threatAssessment: string;
+  recommendedActions: {
+    priority: 'URGENT' | 'HIGH' | 'MEDIUM';
+    action: string;
+    target: string;
+    justification: string;
+  }[];
+  chainOfCustodyHash: string;
 }
 
 export interface CTIListing {
@@ -64,14 +86,39 @@ export interface CTIListing {
   enrichment?: EnrichmentData;
   pipelineTrace: PipelineStep[];
   stixBundleId: string;
+  // DarkScope Entity Resolution additions:
+  rebrandDetected?: boolean;
+  resolvedIdentityCluster?: string;
+  linkedAliases?: LinkedAlias[];
+  copilot?: CopilotIntelligence;
 }
 
 export interface KPIMetrics {
+  entitiesResolved: number;
   totalIngested: number;
   illicitListings: number;
   scamListings: number;
-  benignTraffic: number;
-  activeDarknetNodes: number;
-  averageConfidence: number;
+  trackedWallets: number;
   stixBundlesGenerated: number;
+}
+
+// Graph Visualization Types
+export interface NetworkNode {
+  id: string;
+  label: string;
+  sublabel?: string;
+  type: 'vendor' | 'alias' | 'pgp' | 'wallet' | 'platform' | 'location';
+  isFlagged?: boolean;
+  threatScore?: number;
+  meta?: Record<string, unknown>;
+  x?: number;
+  y?: number;
+}
+
+export interface NetworkEdge {
+  id: string;
+  source: string;
+  target: string;
+  label: string;
+  type?: 'strong' | 'dashed' | 'alert';
 }

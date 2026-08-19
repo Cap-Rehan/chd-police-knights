@@ -1,89 +1,78 @@
-import React, { useState, useMemo } from 'react';
-import { Search, Filter, Eye, Zap, ChevronDown, ChevronUp, Check } from 'lucide-react';
+import React, { useMemo } from 'react';
+import { 
+  Eye, 
+  Zap, 
+  Check, 
+  Network, 
+  Fingerprint, 
+  Coins, 
+  Sparkles
+} from 'lucide-react';
 import type { CTIListing, ClassificationType } from '../types/cti';
 
 interface ThreatStreamTableProps {
   listings: CTIListing[];
   onViewDossier: (listing: CTIListing) => void;
   onQuickEnrich: (listing: CTIListing) => void;
+  searchTerm: string;
+  selectedFilter: 'ALL' | 'REBRANDS' | 'ILLICIT' | 'SCAMS' | 'PGP';
+  onSelectFilter: (filter: 'ALL' | 'REBRANDS' | 'ILLICIT' | 'SCAMS' | 'PGP') => void;
 }
 
 export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
   listings,
   onViewDossier,
   onQuickEnrich,
+  searchTerm,
+  selectedFilter,
+  onSelectFilter,
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedClassification, setSelectedClassification] = useState<string>('ALL');
-  const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
-  const [isFilterBarOpen, setIsFilterBarOpen] = useState(false);
-  const [enrichedId, setEnrichedId] = useState<string | null>(null);
-
-  const categories = useMemo(() => {
-    const set = new Set(listings.map((l) => l.category));
-    return ['ALL', ...Array.from(set)];
-  }, [listings]);
+  const [enrichedId, setEnrichedId] = React.useState<string | null>(null);
 
   const filteredListings = useMemo(() => {
     return listings.filter((item) => {
+      // Search term matching
       const matchesSearch =
         searchTerm.trim() === '' ||
         item.vendor.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.itemTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.id.toLowerCase().includes(searchTerm.toLowerCase());
+        item.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.extracted.wallets.some((w) => w.address.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.extracted.pgpKey && item.extracted.pgpKey.fingerprint.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.linkedAliases && item.linkedAliases.some((a) => a.alias.toLowerCase().includes(searchTerm.toLowerCase())));
 
-      const matchesClassification =
-        selectedClassification === 'ALL' || item.classification === selectedClassification;
+      // Filter chips matching
+      let matchesFilter = true;
+      if (selectedFilter === 'REBRANDS') matchesFilter = !!item.rebrandDetected;
+      if (selectedFilter === 'ILLICIT') matchesFilter = item.classification === 'ILLICIT';
+      if (selectedFilter === 'SCAMS') matchesFilter = item.classification === 'SCAM';
+      if (selectedFilter === 'PGP') matchesFilter = !!item.extracted.pgpKey;
 
-      const matchesCategory =
-        selectedCategory === 'ALL' || item.category === selectedCategory;
-
-      return matchesSearch && matchesClassification && matchesCategory;
+      return matchesSearch && matchesFilter;
     });
-  }, [listings, searchTerm, selectedClassification, selectedCategory]);
+  }, [listings, searchTerm, selectedFilter]);
 
   const getClassificationBadge = (classification: ClassificationType) => {
     switch (classification) {
       case 'ILLICIT':
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold font-mono tracking-wide bg-rose-500/10 text-rose-400 border border-rose-500/20">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold font-mono tracking-wide bg-rose-500/10 text-rose-400 border border-rose-500/20">
             ILLICIT
           </span>
         );
       case 'SCAM':
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold font-mono tracking-wide bg-amber-500/10 text-amber-400 border border-amber-500/20">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold font-mono tracking-wide bg-amber-500/10 text-amber-400 border border-amber-500/20">
             SCAM
           </span>
         );
       case 'LEGIT':
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold font-mono tracking-wide bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold font-mono tracking-wide bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
             LEGIT
           </span>
         );
     }
-  };
-
-  const getConfidenceBar = (confidence: number, classification: ClassificationType) => {
-    const color =
-      classification === 'ILLICIT'
-        ? 'bg-rose-500'
-        : classification === 'SCAM'
-        ? 'bg-amber-500'
-        : 'bg-emerald-500';
-
-    return (
-      <div 
-        className="w-20 h-1.5 bg-zinc-800 rounded-full overflow-hidden relative cursor-help group"
-        title={`Confidence: ${confidence.toFixed(2)} (${(confidence * 100).toFixed(0)}%)`}
-      >
-        <div
-          className={`h-full rounded-full transition-all duration-300 ${color}`}
-          style={{ width: `${Math.round(confidence * 100)}%` }}
-        />
-      </div>
-    );
   };
 
   const handleEnrichClick = (e: React.MouseEvent, listing: CTIListing) => {
@@ -94,111 +83,97 @@ export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
   };
 
   return (
-    <div className="bg-[#0c0c0c] border border-zinc-800 rounded-lg overflow-hidden shadow-xs flex flex-col">
-      {/* Top Action & Filter Toolbar */}
-      <div className="p-3 border-b border-zinc-800 bg-[#0c0c0c] flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
-            Intelligence Stream
+    <div className="bg-[#0e121a] border border-[#1c2333] rounded-2xl overflow-hidden shadow-xs flex flex-col">
+      
+      {/* Table Header & Filter Tabs */}
+      <div className="p-4 border-b border-[#1c2333] bg-[#0e121a] flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5">
+          <span className="text-sm font-bold uppercase tracking-wider text-slate-200 font-mono">
+            Active Targets
           </span>
-          <span className="text-xs font-mono text-zinc-500">
-            ({filteredListings.length} items)
+          <span className="text-xs font-mono text-slate-400 bg-[#141924] px-2 py-0.5 rounded-md border border-[#20283d]">
+            {filteredListings.length} matching leads
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
-          {/* Filter Bar Toggle Button */}
+        {/* Filter Chips */}
+        <div className="flex items-center gap-1.5 flex-wrap">
           <button
-            onClick={() => setIsFilterBarOpen(!isFilterBarOpen)}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium border transition-colors ${
-              isFilterBarOpen || searchTerm || selectedClassification !== 'ALL' || selectedCategory !== 'ALL'
-                ? 'bg-zinc-800 text-zinc-200 border-zinc-700'
-                : 'bg-zinc-950 text-zinc-400 border-zinc-800 hover:text-zinc-200 hover:border-zinc-700'
+            onClick={() => onSelectFilter('ALL')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+              selectedFilter === 'ALL'
+                ? 'bg-indigo-600 text-white shadow-xs font-semibold'
+                : 'bg-[#141924] text-slate-300 hover:text-white border border-[#20283d]'
             }`}
           >
-            <Filter className="h-3 w-3" />
-            <span>Filters</span>
-            {isFilterBarOpen ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+            All Targets
+          </button>
+
+          <button
+            onClick={() => onSelectFilter('REBRANDS')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium flex items-center gap-1.5 transition-all ${
+              selectedFilter === 'REBRANDS'
+                ? 'bg-indigo-600 text-white shadow-xs font-semibold'
+                : 'bg-[#141924] text-indigo-300 hover:text-white border border-indigo-500/30'
+            }`}
+          >
+            <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+            <span>Rebrands Linked</span>
+          </button>
+
+          <button
+            onClick={() => onSelectFilter('ILLICIT')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+              selectedFilter === 'ILLICIT'
+                ? 'bg-rose-600 text-white shadow-xs font-semibold'
+                : 'bg-[#141924] text-slate-300 hover:text-rose-300 border border-[#20283d]'
+            }`}
+          >
+            Illicit Contraband
+          </button>
+
+          <button
+            onClick={() => onSelectFilter('SCAMS')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+              selectedFilter === 'SCAMS'
+                ? 'bg-amber-600 text-white shadow-xs font-semibold'
+                : 'bg-[#141924] text-slate-300 hover:text-amber-300 border border-[#20283d]'
+            }`}
+          >
+            Scams Only
+          </button>
+
+          <button
+            onClick={() => onSelectFilter('PGP')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+              selectedFilter === 'PGP'
+                ? 'bg-emerald-600 text-white shadow-xs font-semibold'
+                : 'bg-[#141924] text-slate-300 hover:text-emerald-300 border border-[#20283d]'
+            }`}
+          >
+            PGP Verified
           </button>
         </div>
       </div>
 
-      {/* Collapsible Filter Toolbar */}
-      {isFilterBarOpen && (
-        <div className="p-3 bg-zinc-950/90 border-b border-zinc-800 flex flex-wrap items-center gap-3 animate-in fade-in duration-150">
-          <div className="relative flex-1 min-w-[200px] max-w-sm">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-500" />
-            <input
-              type="text"
-              placeholder="Search vendor alias, title, or ID..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="h-7 w-full bg-zinc-900 border border-zinc-800 focus:border-zinc-700 rounded pl-8 pr-2.5 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none font-mono"
-            />
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono text-zinc-500">Classification:</span>
-            <select
-              value={selectedClassification}
-              onChange={(e) => setSelectedClassification(e.target.value)}
-              className="h-7 bg-zinc-900 border border-zinc-800 text-zinc-300 rounded px-2 text-xs font-mono focus:outline-none focus:border-zinc-700"
-            >
-              <option value="ALL">All Threat Levels</option>
-              <option value="ILLICIT">Illicit Only</option>
-              <option value="SCAM">Scams Only</option>
-              <option value="LEGIT">Legit Only</option>
-            </select>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono text-zinc-500">Category:</span>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="h-7 bg-zinc-900 border border-zinc-800 text-zinc-300 rounded px-2 text-xs font-mono focus:outline-none focus:border-zinc-700"
-            >
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {(searchTerm || selectedClassification !== 'ALL' || selectedCategory !== 'ALL') && (
-            <button
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedClassification('ALL');
-                setSelectedCategory('ALL');
-              }}
-              className="text-[11px] font-mono text-zinc-500 hover:text-zinc-300 underline"
-            >
-              Reset
-            </button>
-          )}
-        </div>
-      )}
-
-      {/* Simplified Essential Table with subtle zebra striping */}
+      {/* High-Signal Stream Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-sm">
           <thead>
-            <tr className="border-b border-zinc-800/80 bg-zinc-950/60 text-[10px] uppercase font-semibold text-zinc-500 tracking-wider">
-              <th className="py-2.5 px-4">Vendor Alias</th>
-              <th className="py-2.5 px-3">Category</th>
-              <th className="py-2.5 px-3">Item Title</th>
-              <th className="py-2.5 px-3">Classification</th>
-              <th className="py-2.5 px-3">Confidence</th>
-              <th className="py-2.5 px-4 text-right">Quick Actions</th>
+            <tr className="border-b border-[#1c2333] bg-[#090b10]/80 text-[11px] uppercase font-bold text-slate-400 font-mono tracking-wider">
+              <th className="py-3.5 px-5">Vendor & Platform</th>
+              <th className="py-3.5 px-4">Entity Resolution</th>
+              <th className="py-3.5 px-4">Contraband Summary</th>
+              <th className="py-3.5 px-4">Extracted Assets</th>
+              <th className="py-3.5 px-4">Threat Rating</th>
+              <th className="py-3.5 px-5 text-right">Inspect</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-800/50">
+          <tbody className="divide-y divide-[#1c2333]/70">
             {filteredListings.length === 0 ? (
               <tr>
-                <td colSpan={6} className="py-8 text-center text-zinc-500 font-mono text-xs">
-                  No threat items match the current query criteria.
+                <td colSpan={6} className="py-12 text-center text-slate-500 font-mono text-sm">
+                  No threat items match the current search or filter criteria.
                 </td>
               </tr>
             ) : (
@@ -206,67 +181,95 @@ export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
                 <tr
                   key={listing.id}
                   onClick={() => onViewDossier(listing)}
-                  className="cursor-pointer transition-colors duration-100 odd:bg-zinc-900/30 even:bg-transparent hover:bg-zinc-850/50 group"
+                  className="cursor-pointer transition-colors duration-150 hover:bg-[#141924] group"
                 >
-                  {/* 1. Vendor Alias (with small timestamp below) */}
-                  <td className="py-2.5 px-4">
-                    <div className="font-semibold text-zinc-200 group-hover:text-white transition-colors">
+                  {/* 1. Vendor Alias & Discovered Source */}
+                  <td className="py-3.5 px-5">
+                    <div className="font-bold text-slate-100 font-mono text-sm group-hover:text-indigo-300 transition-colors">
                       {listing.vendor}
                     </div>
-                    <div className="text-[11px] text-zinc-500 font-mono">
-                      {listing.discoveredAt}
+                    <div className="text-xs text-slate-400 font-mono mt-0.5 flex items-center gap-1.5">
+                      <span>{listing.source}</span>
+                      <span>•</span>
+                      <span>{listing.discoveredAt}</span>
                     </div>
                   </td>
 
-                  {/* 2. Category (small badge) */}
-                  <td className="py-2.5 px-3 whitespace-nowrap">
-                    <span className="inline-block px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300 font-mono text-[11px]">
-                      {listing.category}
-                    </span>
+                  {/* 2. Entity Resolution & Cross-Platform Rebrand Badge */}
+                  <td className="py-3.5 px-4 whitespace-nowrap">
+                    {listing.rebrandDetected ? (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold font-mono bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                        <Network className="h-3.5 w-3.5 text-indigo-400" />
+                        <span>Linked ({listing.linkedAliases?.length || 2} Personas)</span>
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-mono text-slate-400 bg-[#121622] border border-[#1c2333]">
+                        Standalone
+                      </span>
+                    )}
                   </td>
 
-                  {/* 3. Item Title (truncated to ~60 chars) */}
-                  <td className="py-2.5 px-3 max-w-xs md:max-w-md">
-                    <div className="text-zinc-300 text-xs truncate" title={listing.itemTitle}>
-                      {listing.itemTitle.length > 60
-                        ? `${listing.itemTitle.substring(0, 60)}...`
-                        : listing.itemTitle}
+                  {/* 3. Item Title & Category */}
+                  <td className="py-3.5 px-4 max-w-xs md:max-w-md">
+                    <div className="text-slate-200 text-sm truncate font-sans" title={listing.itemTitle}>
+                      {listing.itemTitle}
+                    </div>
+                    <div className="text-xs text-slate-400 font-mono mt-0.5">
+                      Category: <span className="text-slate-300">{listing.category}</span>
                     </div>
                   </td>
 
-                  {/* 4. Classification Badge */}
-                  <td className="py-2.5 px-3 whitespace-nowrap">
-                    {getClassificationBadge(listing.classification)}
+                  {/* 4. Extracted Assets (Wallets & PGP) */}
+                  <td className="py-3.5 px-4 whitespace-nowrap font-mono text-xs">
+                    <div className="flex items-center gap-2.5 text-slate-300">
+                      {listing.extracted.wallets.length > 0 && (
+                        <span className="inline-flex items-center gap-1 text-xs text-amber-400 font-medium">
+                          <Coins className="h-3.5 w-3.5" />
+                          <span>{listing.extracted.wallets.length} Wallet</span>
+                        </span>
+                      )}
+                      {listing.extracted.pgpKey && (
+                        <span className="inline-flex items-center gap-1 text-xs text-emerald-400 font-medium">
+                          <Fingerprint className="h-3.5 w-3.5" />
+                          <span>PGP</span>
+                        </span>
+                      )}
+                    </div>
                   </td>
 
-                  {/* 5. Confidence (simple progress bar with tooltip on hover) */}
-                  <td className="py-2.5 px-3 whitespace-nowrap">
-                    {getConfidenceBar(listing.confidence, listing.classification)}
+                  {/* 5. Classification & Confidence Bar */}
+                  <td className="py-3.5 px-4 whitespace-nowrap">
+                    <div className="space-y-1">
+                      {getClassificationBadge(listing.classification)}
+                      <div className="text-xs font-mono text-slate-400">
+                        {(listing.confidence * 100).toFixed(0)}% Conf
+                      </div>
+                    </div>
                   </td>
 
-                  {/* 6. Quick Actions (Eye: View Dossier, Zap: Quick Enrich) */}
-                  <td className="py-2.5 px-4 text-right whitespace-nowrap">
-                    <div className="inline-flex items-center gap-1.5">
+                  {/* 6. Quick Action Button */}
+                  <td className="py-3.5 px-5 text-right whitespace-nowrap">
+                    <div className="inline-flex items-center gap-2">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           onViewDossier(listing);
                         }}
-                        className="p-1 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 transition-colors"
-                        title="View Full Case Dossier"
+                        className="p-2 rounded-lg bg-[#141924] hover:bg-indigo-600 text-slate-300 hover:text-white border border-[#20283d] transition-all"
+                        title="Open Investigation Drawer"
                       >
-                        <Eye className="h-3.5 w-3.5" />
+                        <Eye className="h-4 w-4" />
                       </button>
 
                       <button
                         onClick={(e) => handleEnrichClick(e, listing)}
-                        className="p-1 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-amber-400 border border-zinc-800 transition-colors"
-                        title="Trigger Instant On-Chain Enrichment"
+                        className="p-2 rounded-lg bg-[#141924] hover:bg-[#1e2535] text-slate-400 hover:text-amber-400 border border-[#20283d] transition-all"
+                        title="Trigger Instant On-Chain Forensic Lookup"
                       >
                         {enrichedId === listing.id ? (
-                          <Check className="h-3.5 w-3.5 text-emerald-400" />
+                          <Check className="h-4 w-4 text-emerald-400" />
                         ) : (
-                          <Zap className="h-3.5 w-3.5 text-amber-400" />
+                          <Zap className="h-4 w-4" />
                         )}
                       </button>
                     </div>

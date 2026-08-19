@@ -1,101 +1,98 @@
 import React from 'react';
-import { Shield, Radio, FileText, UserCheck, ArrowLeft } from 'lucide-react';
+import { 
+  Search, 
+  Layers, 
+  GitFork, 
+  BarChart2, 
+  ChevronRight, 
+  Shield, 
+  Terminal, 
+  FileCode,
+  PanelLeft
+} from 'lucide-react';
 
 interface HeaderProps {
-  currentView: 'stream' | 'dossier';
-  onNavigateStream: () => void;
-  onOpenStix: () => void;
-  onOpenPipelineModal: () => void;
+  currentView: 'stream' | 'graph' | 'analytics' | 'simulator' | 'stix';
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  isSidebarCollapsed: boolean;
+  onToggleSidebar: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   currentView,
-  onNavigateStream,
-  onOpenStix,
-  onOpenPipelineModal,
+  searchTerm,
+  onSearchChange,
+  isSidebarCollapsed,
+  onToggleSidebar,
 }) => {
+  const getViewTitle = () => {
+    switch (currentView) {
+      case 'stream':
+        return { name: 'Threat Stream & Triage', icon: Layers };
+      case 'graph':
+        return { name: 'Criminal Network Graph Explorer', icon: GitFork };
+      case 'analytics':
+        return { name: 'Trafficking Trends & Intelligence Analytics', icon: BarChart2 };
+      case 'simulator':
+        return { name: 'LangGraph Autonomous Multi-Agent Pipeline', icon: Terminal };
+      case 'stix':
+        return { name: 'OASIS STIX 2.1 Threat Intelligence Hub', icon: FileCode };
+    }
+  };
+
+  const current = getViewTitle();
+  const Icon = current.icon;
+
   return (
-    <header className="border-b border-zinc-800/80 bg-black/90 backdrop-blur-md px-4 py-2.5 sticky top-0 z-40">
-      <div className="flex flex-wrap items-center justify-between gap-3 max-w-7xl mx-auto">
-        {/* Left: Branding & Breadcrumb */}
-        <div className="flex items-center gap-3">
+    <header className="border-b border-[#1c2333] bg-[#090b10]/95 backdrop-blur-md px-6 py-3.5 sticky top-0 z-20">
+      <div className="flex flex-wrap items-center justify-between gap-4 max-w-[1560px] mx-auto w-full">
+        
+        {/* Left: Sidebar Toggle & Breadcrumbs */}
+        <div className="flex items-center gap-3 text-sm font-sans min-w-0">
+          <button
+            onClick={onToggleSidebar}
+            className={`p-1.5 rounded-lg border transition-all ${
+              isSidebarCollapsed
+                ? 'bg-indigo-600/20 border-indigo-500/40 text-indigo-300'
+                : 'bg-[#0e121a] border-[#1c2333] text-slate-400 hover:text-white hover:bg-[#141924]'
+            }`}
+            title="Toggle sidebar ([)"
+          >
+            <PanelLeft className="h-4 w-4" />
+          </button>
+
+          <div className="flex items-center gap-1.5 text-slate-500 font-mono text-xs hidden sm:flex">
+            <Shield className="h-4 w-4 text-indigo-400" />
+            <span>DarkScope</span>
+            <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
+          </div>
+
           <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded bg-zinc-900 border border-zinc-800 text-zinc-100">
-              <Shield className="h-4 w-4" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-sm tracking-wider text-zinc-100 uppercase">
-                  CTI SENTINEL
-                </span>
-                <span className="rounded bg-zinc-900 border border-zinc-800 px-1.5 py-0.2 text-[10px] font-semibold text-zinc-300 tracking-wide uppercase">
-                  Narcotics Track
-                </span>
-              </div>
-              <div className="text-[10px] text-zinc-500 font-mono flex items-center gap-1.5">
-                <span>Chandigarh Police Cyber Cell</span>
-                {currentView === 'dossier' && (
-                  <>
-                    <span>/</span>
-                    <button
-                      onClick={onNavigateStream}
-                      className="text-zinc-300 hover:text-white flex items-center gap-0.5"
-                    >
-                      <ArrowLeft className="h-2.5 w-2.5 inline" /> Stream
-                    </button>
-                    <span>/</span>
-                    <span className="text-zinc-200">Case Dossier</span>
-                  </>
-                )}
-              </div>
-            </div>
+            <Icon className="h-4 w-4 text-indigo-400" />
+            <h1 className="font-bold text-slate-100 text-sm tracking-wide truncate">
+              {current.name}
+            </h1>
           </div>
         </div>
 
-        {/* Right: Actions & Pipeline Status */}
-        <div className="flex items-center gap-2.5">
-          {/* Active LangGraph Status Indicator */}
-          <div className="flex items-center gap-2 rounded bg-zinc-950 border border-zinc-800 px-2.5 py-1 text-xs">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span className="text-[11px] font-mono text-zinc-500">STATUS:</span>
-            <span className="text-[11px] font-mono font-medium text-emerald-400">
-              STREAM ACTIVE
-            </span>
-          </div>
-
-          {/* Quick Actions */}
-          <button
-            onClick={onOpenPipelineModal}
-            className="flex items-center gap-1.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 px-2.5 py-1 text-xs font-medium text-zinc-200 transition-colors"
-            title="Open Autonomous Agent Pipeline Simulator"
-          >
-            <Radio className="h-3.5 w-3.5 text-zinc-300" />
-            <span>Agent Simulator</span>
-          </button>
-
-          <button
-            onClick={onOpenStix}
-            className="flex items-center gap-1.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 px-2.5 py-1 text-xs font-medium text-zinc-200 transition-colors"
-            title="Inspect OASIS STIX 2.1 Threat Intel Bundle"
-          >
-            <FileText className="h-3.5 w-3.5 text-amber-400" />
-            <span>STIX 2.1</span>
-          </button>
-
-          {/* User Profile */}
-          <div className="hidden sm:flex items-center gap-2 border-l border-zinc-800 pl-3">
-            <div className="h-7 w-7 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300">
-              <UserCheck className="h-3.5 w-3.5 text-zinc-300" />
-            </div>
-            <div className="text-left">
-              <div className="text-[11px] font-semibold text-zinc-200">Cyber SOC Analyst</div>
-              <div className="text-[9px] text-zinc-500 font-mono">CC-CHD #419</div>
-            </div>
+        {/* Center / Right: Global Search Input */}
+        <div className="relative flex-1 max-w-xl">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search vendor alias, PGP 0xB8C2..., wallet bc1q..., or Telegram @..."
+            className="w-full h-9 pl-10 pr-12 rounded-xl bg-[#0e121a] border border-[#1c2333] focus:border-indigo-500/60 text-xs font-mono text-slate-200 placeholder:text-slate-500 focus:outline-none transition-all shadow-inner"
+          />
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            <kbd className="px-1.5 py-0.5 text-[10px] font-mono text-slate-500 bg-[#161b26] border border-[#232b3e] rounded">
+              /
+            </kbd>
           </div>
         </div>
+
       </div>
     </header>
   );
