@@ -1,0 +1,28 @@
+{
+  "type": "bundle",
+  "id": "bundle--0a02670f-3b6c-4c8e-99c9-f99330484f23",
+  "objects": [
+    {
+      "type": "identity",
+      "spec_version": "2.1",
+      "id": "identity--d0a68ec7-0c44-4f50-803b-7194643da517",
+      "created": "2026-08-18T15:52:10.264321Z",
+      "modified": "2026-08-18T15:52:10.264321Z",
+      "name": "CTI Multi-Agent Pipeline",
+      "description": "Autonomous Threat Intelligence Ingestion & Classification Pipeline",
+      "identity_class": "system"
+    },
+    {
+      "type": "threat-actor",
+      "spec_version": "2.1",
+      "id": "threat-actor--da0192a2-ce83-4825-8d0d-af70b804fcda",
+      "created": "2026-08-18T15:52:24.784871Z",
+      "modified": "2026-08-18T15:52:24.784871Z",
+      "name": "Unknown-Actor-AGORA-000001",
+      "description": "Actor identified from Agora_Marketplace_Historical_Dump. Category: Illicit (Confidence: 0.95)",
+      "threat_actor_types": [
+        "cybercrime-vendor"
+      ]
+    }
+  ]
+}

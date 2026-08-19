@@ -1,0 +1,77 @@
+{
+  "type": "bundle",
+  "id": "bundle--621aa2bf-a7a9-4753-aaf1-9abcdfa28b8c",
+  "objects": [
+    {
+      "type": "identity",
+      "spec_version": "2.1",
+      "id": "identity--e314151f-cb83-407b-8f66-293cc5ff1570",
+      "created": "2026-08-19T10:55:36.397943Z",
+      "modified": "2026-08-19T10:55:36.397943Z",
+      "name": "CTI Multi-Agent Pipeline",
+      "description": "Autonomous Threat Intelligence Ingestion & Classification Pipeline",
+      "identity_class": "system"
+    },
+    {
+      "type": "threat-actor",
+      "spec_version": "2.1",
+      "id": "threat-actor--90ccfbd7-26d7-47db-bfc5-3f7fc5f0437b",
+      "created": "2026-08-19T10:55:58.275876Z",
+      "modified": "2026-08-19T10:55:58.275876Z",
+      "name": "ShadowBroker99",
+      "description": "Actor identified from Agora_Historical_Dump_Sample. Category: Illicit (Confidence: 0.98)",
+      "threat_actor_types": [
+        "cybercrime-vendor"
+      ],
+      "aliases": [
+        "ShadowBroker99"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--114a7190-c268-4d9b-995a-647186e0a9d5",
+      "created": "2026-08-19T10:55:58.276136Z",
+      "modified": "2026-08-19T10:55:58.276136Z",
+      "name": "Cryptocurrency Wallet: BTC - 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+      "description": "Flagged BTC address associated with ShadowBroker99 on Agora_Historical_Dump_Sample.",
+      "pattern": "[user-account:account_login = '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2026-08-19T10:55:58.276136Z"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--9ef89844-d45d-475c-94e9-6fadc0d19d3c",
+      "created": "2026-08-19T10:55:58.293974Z",
+      "modified": "2026-08-19T10:55:58.293974Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--114a7190-c268-4d9b-995a-647186e0a9d5",
+      "target_ref": "threat-actor--90ccfbd7-26d7-47db-bfc5-3f7fc5f0437b"
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--3a06df99-1588-4487-8043-e7f10e0ebf7b",
+      "created": "2026-08-19T10:55:58.29414Z",
+      "modified": "2026-08-19T10:55:58.29414Z",
+      "name": "Darknet / Market URL: http://marketproofs7qwdj3klsad8fjas9df.onion/proof.png",
+      "description": "Associated infrastructure / mirror link for ShadowBroker99.",
+      "pattern": "[url:value = 'http://marketproofs7qwdj3klsad8fjas9df.onion/proof.png']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2026-08-19T10:55:58.29414Z"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--a5a262fe-a5e7-4d1b-8e53-eabb1ba3328c",
+      "created": "2026-08-19T10:55:58.295068Z",
+      "modified": "2026-08-19T10:55:58.295068Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--3a06df99-1588-4487-8043-e7f10e0ebf7b",
+      "target_ref": "threat-actor--90ccfbd7-26d7-47db-bfc5-3f7fc5f0437b"
+    }
+  ]
+}

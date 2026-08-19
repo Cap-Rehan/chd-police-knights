@@ -1,0 +1,97 @@
+{
+  "type": "bundle",
+  "id": "bundle--00ad4009-bf68-4751-9458-3bf7ede42dcf",
+  "objects": [
+    {
+      "type": "identity",
+      "spec_version": "2.1",
+      "id": "identity--e314151f-cb83-407b-8f66-293cc5ff1570",
+      "created": "2026-08-19T10:55:36.397943Z",
+      "modified": "2026-08-19T10:55:36.397943Z",
+      "name": "CTI Multi-Agent Pipeline",
+      "description": "Autonomous Threat Intelligence Ingestion & Classification Pipeline",
+      "identity_class": "system"
+    },
+    {
+      "type": "threat-actor",
+      "spec_version": "2.1",
+      "id": "threat-actor--c743392d-9ecc-4b18-97e9-f853a20f7fcd",
+      "created": "2026-08-19T10:56:08.598772Z",
+      "modified": "2026-08-19T10:56:08.598772Z",
+      "name": "Unknown-Actor-LISTING-2024-003",
+      "description": "Actor identified from GitHub_Public_Repo_Donations. Category: Legit (Confidence: 0.95)",
+      "threat_actor_types": [
+        "scammer"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--b55dd662-c782-42ab-be06-b7c5fa1f3fe9",
+      "created": "2026-08-19T10:56:08.598927Z",
+      "modified": "2026-08-19T10:56:08.598927Z",
+      "name": "Cryptocurrency Wallet: BTC - 1BoatSLRHtKNngkdXEeobR76b53LETtpyT",
+      "description": "Flagged BTC address associated with Unknown-Actor-LISTING-2024-003 on GitHub_Public_Repo_Donations.",
+      "pattern": "[user-account:account_login = '1BoatSLRHtKNngkdXEeobR76b53LETtpyT']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2026-08-19T10:56:08.598927Z"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--08db4c9c-1b81-44e6-8348-0c88d1d58ef6",
+      "created": "2026-08-19T10:56:08.599452Z",
+      "modified": "2026-08-19T10:56:08.599452Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--b55dd662-c782-42ab-be06-b7c5fa1f3fe9",
+      "target_ref": "threat-actor--c743392d-9ecc-4b18-97e9-f853a20f7fcd"
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--14bd95ef-a6db-4962-9e1a-af5cfe11b18a",
+      "created": "2026-08-19T10:56:08.599574Z",
+      "modified": "2026-08-19T10:56:08.599574Z",
+      "name": "Cryptocurrency Wallet: ETH - 0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+      "description": "Flagged ETH address associated with Unknown-Actor-LISTING-2024-003 on GitHub_Public_Repo_Donations.",
+      "pattern": "[user-account:account_login = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2026-08-19T10:56:08.599574Z"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--54380a2c-db01-4d25-a4cf-934b84e15245",
+      "created": "2026-08-19T10:56:08.599953Z",
+      "modified": "2026-08-19T10:56:08.599953Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--14bd95ef-a6db-4962-9e1a-af5cfe11b18a",
+      "target_ref": "threat-actor--c743392d-9ecc-4b18-97e9-f853a20f7fcd"
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--ac42c874-a19c-49ec-8cc6-388a75a720e0",
+      "created": "2026-08-19T10:56:08.600048Z",
+      "modified": "2026-08-19T10:56:08.600048Z",
+      "name": "Darknet / Market URL: github.com/pythreathunter",
+      "description": "Associated infrastructure / mirror link for Unknown-Actor-LISTING-2024-003.",
+      "pattern": "[url:value = 'github.com/pythreathunter']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2026-08-19T10:56:08.600048Z"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--00d3abfb-96d4-4d1a-a073-09d1a09d69bb",
+      "created": "2026-08-19T10:56:08.600359Z",
+      "modified": "2026-08-19T10:56:08.600359Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ac42c874-a19c-49ec-8cc6-388a75a720e0",
+      "target_ref": "threat-actor--c743392d-9ecc-4b18-97e9-f853a20f7fcd"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "type": "bundle",
+  "id": "bundle--22e17f78-0d25-4e8f-b65a-1fe55c90fc98",
+  "objects": [
+    {
+      "type": "identity",
+      "spec_version": "2.1",
+      "id": "identity--e314151f-cb83-407b-8f66-293cc5ff1570",
+      "created": "2026-08-19T10:55:36.397943Z",
+      "modified": "2026-08-19T10:55:36.397943Z",
+      "name": "CTI Multi-Agent Pipeline",
+      "description": "Autonomous Threat Intelligence Ingestion & Classification Pipeline",
+      "identity_class": "system"
+    },
+    {
+      "type": "threat-actor",
+      "spec_version": "2.1",
+      "id": "threat-actor--7a1d4573-73a5-4091-b921-bb0e3e48f401",
+      "created": "2026-08-19T10:56:04.903966Z",
+      "modified": "2026-08-19T10:56:04.903966Z",
+      "name": "Unknown-Actor-LISTING-2024-002",
+      "description": "Actor identified from CryptoForum_Telegram_Scrape. Category: Scam (Confidence: 0.98)",
+      "threat_actor_types": [
+        "scammer"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--29628fa6-bdc4-4057-af87-1de939703142",
+      "created": "2026-08-19T10:56:04.904154Z",
+      "modified": "2026-08-19T10:56:04.904154Z",
+      "name": "Cryptocurrency Wallet: BTC - 3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy",
+      "description": "Flagged BTC address associated with Unknown-Actor-LISTING-2024-002 on CryptoForum_Telegram_Scrape.",
+      "pattern": "[user-account:account_login = '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2026-08-19T10:56:04.904154Z"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--86ac62e8-b8cc-4bff-bb33-660f88ffc7b3",
+      "created": "2026-08-19T10:56:04.904735Z",
+      "modified": "2026-08-19T10:56:04.904735Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--29628fa6-bdc4-4057-af87-1de939703142",
+      "target_ref": "threat-actor--7a1d4573-73a5-4091-b921-bb0e3e48f401"
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--dfc34a3a-de30-4564-b9a1-e44f632bb30a",
+      "created": "2026-08-19T10:56:04.904841Z",
+      "modified": "2026-08-19T10:56:04.904841Z",
+      "name": "Darknet / Market URL: https://elon-musk-spacex-promo-bonus2024.xyz",
+      "description": "Associated infrastructure / mirror link for Unknown-Actor-LISTING-2024-002.",
+      "pattern": "[url:value = 'https://elon-musk-spacex-promo-bonus2024.xyz']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2026-08-19T10:56:04.904841Z"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--5e2ab124-c00f-4162-a85d-d8189241759b",
+      "created": "2026-08-19T10:56:04.905357Z",
+      "modified": "2026-08-19T10:56:04.905357Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--dfc34a3a-de30-4564-b9a1-e44f632bb30a",
+      "target_ref": "threat-actor--7a1d4573-73a5-4091-b921-bb0e3e48f401"
+    }
+  ]
+}

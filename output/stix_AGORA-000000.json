@@ -1,0 +1,28 @@
+{
+  "type": "bundle",
+  "id": "bundle--f338b50f-4049-44a2-b088-f492e097f868",
+  "objects": [
+    {
+      "type": "identity",
+      "spec_version": "2.1",
+      "id": "identity--d0a68ec7-0c44-4f50-803b-7194643da517",
+      "created": "2026-08-18T15:52:10.264321Z",
+      "modified": "2026-08-18T15:52:10.264321Z",
+      "name": "CTI Multi-Agent Pipeline",
+      "description": "Autonomous Threat Intelligence Ingestion & Classification Pipeline",
+      "identity_class": "system"
+    },
+    {
+      "type": "threat-actor",
+      "spec_version": "2.1",
+      "id": "threat-actor--103885e9-ba9a-4e17-8d29-220e9f779774",
+      "created": "2026-08-18T15:52:19.409076Z",
+      "modified": "2026-08-18T15:52:19.409076Z",
+      "name": "Unknown-Actor-AGORA-000000",
+      "description": "Actor identified from Agora_Marketplace_Historical_Dump. Category: Scam (Confidence: 0.95)",
+      "threat_actor_types": [
+        "scammer"
+      ]
+    }
+  ]
+}

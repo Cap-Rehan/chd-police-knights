@@ -1,0 +1,77 @@
+{
+  "type": "bundle",
+  "id": "bundle--68e5287e-8872-43d7-a98d-65683ac492c8",
+  "objects": [
+    {
+      "type": "identity",
+      "spec_version": "2.1",
+      "id": "identity--0930a74c-9610-4605-b650-746c82a8478f",
+      "created": "2026-08-18T15:46:38.774321Z",
+      "modified": "2026-08-18T15:46:38.774321Z",
+      "name": "CTI Multi-Agent Pipeline",
+      "description": "Autonomous Threat Intelligence Ingestion & Classification Pipeline",
+      "identity_class": "system"
+    },
+    {
+      "type": "threat-actor",
+      "spec_version": "2.1",
+      "id": "threat-actor--8401ab9b-1df3-478c-9cf1-2bb42889cf8e",
+      "created": "2026-08-18T15:47:16.350753Z",
+      "modified": "2026-08-18T15:47:16.350753Z",
+      "name": "RedCipher0x",
+      "description": "Actor identified from BreachForum_Sample_Leak. Category: Illicit (Confidence: 0.98)",
+      "threat_actor_types": [
+        "cybercrime-vendor"
+      ],
+      "aliases": [
+        "RedCipher0x"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--22a9caab-ed5b-47db-9bfe-e91aed352296",
+      "created": "2026-08-18T15:47:16.351517Z",
+      "modified": "2026-08-18T15:47:16.351517Z",
+      "name": "Cryptocurrency Wallet: BTC - 34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo",
+      "description": "Flagged BTC address associated with RedCipher0x on BreachForum_Sample_Leak.",
+      "pattern": "[user-account:account_login = '34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2026-08-18T15:47:16.351517Z"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--5bd36536-3bec-471c-a094-1a3df9eb250b",
+      "created": "2026-08-18T15:47:16.353445Z",
+      "modified": "2026-08-18T15:47:16.353445Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--22a9caab-ed5b-47db-9bfe-e91aed352296",
+      "target_ref": "threat-actor--8401ab9b-1df3-478c-9cf1-2bb42889cf8e"
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--820e98fa-a3e4-47a7-ae5b-cdb2df1ec05b",
+      "created": "2026-08-18T15:47:16.353902Z",
+      "modified": "2026-08-18T15:47:16.353902Z",
+      "name": "Cryptocurrency Wallet: ETH - 0x52908400098527886E0F7030069857D2E4169EE7",
+      "description": "Flagged ETH address associated with RedCipher0x on BreachForum_Sample_Leak.",
+      "pattern": "[user-account:account_login = '0x52908400098527886E0F7030069857D2E4169EE7']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2026-08-18T15:47:16.353902Z"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--8d0f0902-09cb-4517-b2d4-cae85e63bd43",
+      "created": "2026-08-18T15:47:16.35505Z",
+      "modified": "2026-08-18T15:47:16.35505Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--820e98fa-a3e4-47a7-ae5b-cdb2df1ec05b",
+      "target_ref": "threat-actor--8401ab9b-1df3-478c-9cf1-2bb42889cf8e"
+    }
+  ]
+}
