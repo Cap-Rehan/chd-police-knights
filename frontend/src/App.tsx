@@ -98,13 +98,11 @@ export function App() {
       {/* Main Right Content Panel */}
       <div className="flex-1 flex flex-col min-w-0">
         
-        {/* Top Lightweight Utility Header with Sidebar Toggle */}
+        {/* Top Lightweight Utility Header */}
         <Header
           currentView={currentView}
           searchTerm={searchTerm}
           onSearchChange={(val) => setSearchTerm(val)}
-          isSidebarCollapsed={isSidebarCollapsed}
-          onToggleSidebar={() => setIsSidebarCollapsed(prev => !prev)}
         />
 
         {/* Main Content Workspace */}

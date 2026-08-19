@@ -228,12 +228,12 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
             {stixBundle.objects.map((obj, i) => (
               <div
                 key={i}
-                className="p-5 rounded-2xl bg-[#0e121a] border border-[#1c2333] hover:border-[#2a354d] space-y-3 transition-all shadow-xs"
+                className="p-5 rounded-2xl bg-[#0e121a] border border-[#1c2333] hover:border-[#2a354d] space-y-3 transition-all shadow-xs min-w-0 overflow-hidden"
               >
                 {/* Object Card Header */}
-                <div className="flex items-center justify-between border-b border-[#1c2333] pb-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="h-8 w-8 rounded-xl bg-[#141924] border border-[#20283d] flex items-center justify-center">
+                <div className="flex items-center justify-between border-b border-[#1c2333] pb-3 gap-2">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="h-8 w-8 rounded-xl bg-[#141924] border border-[#20283d] flex items-center justify-center shrink-0">
                       {obj.type === 'threat-actor' ? (
                         <Shield className="h-4 w-4 text-rose-400" />
                       ) : obj.type === 'indicator' ? (
@@ -244,37 +244,37 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
                         <Network className="h-4 w-4 text-indigo-400" />
                       )}
                     </div>
-                    <div>
-                      <span className="font-bold text-sm font-mono text-slate-100 uppercase tracking-wide">
+                    <div className="min-w-0">
+                      <span className="font-bold text-sm font-mono text-slate-100 uppercase tracking-wide truncate block">
                         {obj.type}
                       </span>
                     </div>
                   </div>
-                  <span className="text-xs text-slate-500 font-mono">
+                  <span className="text-xs text-slate-500 font-mono truncate max-w-[50%]" title={obj.id}>
                     {obj.id}
                   </span>
                 </div>
 
                 {/* Object Details */}
-                <div className="space-y-2 text-sm">
+                <div className="space-y-2.5 text-sm min-w-0">
                   {'name' in obj && (
-                    <div className="text-base font-bold text-slate-100 font-sans">
+                    <div className="text-base font-bold text-slate-100 font-sans break-anywhere leading-snug">
                       {obj.name}
                     </div>
                   )}
 
                   {'description' in obj && (
-                    <div className="text-xs text-slate-300 leading-relaxed font-sans">
+                    <div className="text-xs text-slate-300 leading-relaxed font-sans break-anywhere">
                       {obj.description}
                     </div>
                   )}
 
                   {'aliases' in obj && obj.aliases && (
-                    <div className="space-y-1 pt-1">
+                    <div className="space-y-1.5 pt-1 min-w-0">
                       <span className="text-xs font-mono text-slate-400 uppercase font-bold">Known Aliases:</span>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-1.5 min-w-0">
                         {obj.aliases.map((alias, aIdx) => (
-                          <span key={aIdx} className="px-2 py-0.5 rounded-md text-xs font-mono bg-[#141924] text-indigo-300 border border-[#20283d]">
+                          <span key={aIdx} className="px-2 py-0.5 rounded-md text-xs font-mono bg-[#141924] text-indigo-300 border border-[#20283d] break-all max-w-full">
                             {alias}
                           </span>
                         ))}
@@ -283,18 +283,18 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
                   )}
 
                   {'pattern' in obj && (
-                    <div className="pt-1">
+                    <div className="pt-1 min-w-0">
                       <div className="text-[11px] font-mono text-slate-400 uppercase font-bold mb-1">STIX Indicator Pattern:</div>
-                      <div className="text-xs font-mono text-indigo-300 bg-black/60 p-2.5 rounded-xl border border-[#1c2333] break-all leading-relaxed">
+                      <div className="text-xs font-mono text-indigo-300 bg-black/60 p-2.5 rounded-xl border border-[#1c2333] break-all leading-relaxed whitespace-pre-wrap">
                         {obj.pattern}
                       </div>
                     </div>
                   )}
 
                   {'relationship_type' in obj && (
-                    <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs font-mono text-indigo-300 flex items-center justify-between">
-                      <span>Relationship: <strong>{obj.relationship_type}</strong></span>
-                      <Share2 className="h-4 w-4 text-indigo-400" />
+                    <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs font-mono text-indigo-300 flex items-center justify-between gap-2 min-w-0">
+                      <span className="break-all">Relationship: <strong>{obj.relationship_type}</strong></span>
+                      <Share2 className="h-4 w-4 text-indigo-400 shrink-0" />
                     </div>
                   )}
                 </div>

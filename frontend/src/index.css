@@ -37,6 +37,12 @@
   code, pre, .font-mono {
     font-family: var(--font-mono);
   }
+
+  .break-anywhere {
+    overflow-wrap: anywhere !important;
+    word-break: break-all !important;
+    white-space: normal !important;
+  }
 }
 
 /* Refined Dark Scrollbars */

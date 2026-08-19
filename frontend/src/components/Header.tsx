@@ -7,24 +7,19 @@ import {
   ChevronRight, 
   Shield, 
   Terminal, 
-  FileCode,
-  PanelLeft
+  FileCode
 } from 'lucide-react';
 
 interface HeaderProps {
   currentView: 'stream' | 'graph' | 'analytics' | 'simulator' | 'stix';
   searchTerm: string;
   onSearchChange: (value: string) => void;
-  isSidebarCollapsed: boolean;
-  onToggleSidebar: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   currentView,
   searchTerm,
   onSearchChange,
-  isSidebarCollapsed,
-  onToggleSidebar,
 }) => {
   const getViewTitle = () => {
     switch (currentView) {
@@ -48,20 +43,8 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="border-b border-[#1c2333] bg-[#090b10]/95 backdrop-blur-md px-6 py-3.5 sticky top-0 z-20">
       <div className="flex flex-wrap items-center justify-between gap-4 max-w-[1560px] mx-auto w-full">
         
-        {/* Left: Sidebar Toggle & Breadcrumbs */}
+        {/* Left: Breadcrumbs & Current View Title */}
         <div className="flex items-center gap-3 text-sm font-sans min-w-0">
-          <button
-            onClick={onToggleSidebar}
-            className={`p-1.5 rounded-lg border transition-all ${
-              isSidebarCollapsed
-                ? 'bg-indigo-600/20 border-indigo-500/40 text-indigo-300'
-                : 'bg-[#0e121a] border-[#1c2333] text-slate-400 hover:text-white hover:bg-[#141924]'
-            }`}
-            title="Toggle sidebar ([)"
-          >
-            <PanelLeft className="h-4 w-4" />
-          </button>
-
           <div className="flex items-center gap-1.5 text-slate-500 font-mono text-xs hidden sm:flex">
             <Shield className="h-4 w-4 text-indigo-400" />
             <span>DarkScope</span>
@@ -69,7 +52,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <Icon className="h-4 w-4 text-indigo-400" />
+            <Icon className="h-4 w-4 text-indigo-400 shrink-0" />
             <h1 className="font-bold text-slate-100 text-sm tracking-wide truncate">
               {current.name}
             </h1>
