@@ -2,37 +2,83 @@
 
 @layer base {
   :root {
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* Theme Tokens */
+    --bg-canvas: #080a0f;
+    --bg-sidebar: #0a0d14;
+    --bg-card: #0e121a;
+    --bg-card-hover: #141924;
+    --bg-subtle: #181f2e;
+    --border-subtle: #1c2333;
+    --border-hover: #2a354d;
+    --accent-indigo: #6366f1;
+    --accent-cyan: #06b6d4;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-rose: #f43f5e;
+  }
+
+  html {
+    font-size: 16px;
   }
 
   body {
     font-family: var(--font-sans);
-    background-color: #000000;
-    color: #ededed;
+    background-color: var(--bg-canvas);
+    color: #e2e8f0;
     overflow-x: hidden;
+    letter-spacing: -0.01em;
+    font-size: 0.95rem; /* ~15.2px base */
+    line-height: 1.5;
   }
 
   code, pre, .font-mono {
     font-family: var(--font-mono);
   }
+
+  .break-anywhere {
+    overflow-wrap: anywhere !important;
+    word-break: break-all !important;
+    white-space: normal !important;
+  }
 }
 
-/* Vercel-style clean subtle scrollbars */
+/* Refined Dark Scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: #080a0f;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
-  border-radius: 2px;
+  background: #1e2638;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: #334155;
+}
+
+/* Animations */
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 3s ease-in-out infinite;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
