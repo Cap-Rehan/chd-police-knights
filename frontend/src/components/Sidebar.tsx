@@ -32,19 +32,31 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <aside
-      className={`bg-[#0a0d14] border-r border-[#1c2333] flex flex-col justify-between h-screen sticky top-0 shrink-0 z-30 select-none transition-all duration-200 ease-in-out ${
+      className={`border-r flex flex-col justify-between h-screen sticky top-0 shrink-0 z-30 select-none transition-all duration-200 ease-in-out ${
         isCollapsed ? 'w-18' : 'w-64'
       }`}
+      style={{
+        backgroundColor: 'var(--bg-sidebar)',
+        borderColor: 'var(--border-subtle)',
+      }}
     >
       
       {/* Top Brand Header & Toggle */}
       <div>
-        <div className="p-3.5 border-b border-[#1c2333] flex items-center justify-center min-h-[64px]">
+        <div
+          className="p-3.5 border-b flex items-center justify-center min-h-[64px]"
+          style={{ borderColor: 'var(--border-subtle)' }}
+        >
           {isCollapsed ? (
             /* Collapsed Single Centered Toggle Button */
             <button
               onClick={onToggleCollapse}
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/20 to-cyan-500/10 border border-indigo-500/30 text-indigo-400 hover:text-white hover:border-indigo-400 hover:scale-105 transition-all shadow-xs"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border hover:scale-105 transition-all shadow-xs cursor-pointer"
+              style={{
+                backgroundColor: 'var(--bg-accent-subtle)',
+                borderColor: 'var(--border-accent)',
+                color: 'var(--accent-primary)',
+              }}
               title="Expand sidebar ([)"
             >
               <PanelLeftOpen className="h-5 w-5" />
@@ -57,11 +69,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 onClick={() => onViewChange('stream')}
                 title="DarkScope Home"
               >
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/20 to-cyan-500/10 border border-indigo-500/30 text-indigo-400 shadow-xs shrink-0">
+                <div
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border shadow-xs shrink-0"
+                  style={{
+                    backgroundColor: 'var(--bg-accent-subtle)',
+                    borderColor: 'var(--border-accent)',
+                    color: 'var(--accent-primary)',
+                  }}
+                >
                   <ShieldAlert className="h-5 w-5" />
                 </div>
                 <div className="truncate">
-                  <span className="font-extrabold text-base tracking-wider text-slate-100 uppercase font-sans">
+                  <span
+                    className="font-extrabold text-base tracking-wider uppercase font-sans"
+                    style={{ color: 'var(--text-primary)' }}
+                  >
                     DARKSCOPE
                   </span>
                   <div className="text-xs text-slate-400 font-mono">
@@ -72,7 +94,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
               <button
                 onClick={onToggleCollapse}
-                className="p-1.5 rounded-lg hover:bg-[#141924] text-slate-400 hover:text-white transition-colors shrink-0"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white transition-colors shrink-0 cursor-pointer"
+                style={{ backgroundColor: 'transparent' }}
                 title="Collapse sidebar ([)"
               >
                 <PanelLeftClose className="h-4 w-4" />
@@ -94,21 +117,38 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             <button
               onClick={() => onViewChange('stream')}
-              className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'} rounded-xl text-sm font-medium transition-all ${
+              className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'} rounded-xl text-sm font-medium transition-all cursor-pointer`}
+              style={
                 currentView === 'stream'
-                  ? 'bg-indigo-600 text-white font-semibold shadow-xs'
-                  : 'text-slate-300 hover:text-white hover:bg-[#141924]'
-              }`}
+                  ? {
+                      backgroundColor: 'var(--bg-accent)',
+                      color: 'var(--accent-primary-content)',
+                      fontWeight: 600,
+                      boxShadow: 'var(--accent-glow)',
+                    }
+                  : {
+                      color: 'var(--text-secondary)',
+                    }
+              }
               title="Threat Stream"
             >
               <div className="flex items-center gap-2.5">
-                <Layers className={`h-4 w-4 ${currentView === 'stream' ? 'text-white' : 'text-indigo-400'}`} />
+                <Layers
+                  className="h-4 w-4 shrink-0"
+                  style={{
+                    color: currentView === 'stream' ? 'var(--accent-primary-content)' : 'var(--accent-primary)',
+                  }}
+                />
                 {!isCollapsed && <span>Threat Stream</span>}
               </div>
               {!isCollapsed && (
-                <span className={`text-xs font-mono px-1.5 py-0.2 rounded-md ${
-                  currentView === 'stream' ? 'bg-indigo-800 text-indigo-200' : 'bg-[#141924] text-slate-400'
-                }`}>
+                <span
+                  className="text-xs font-mono px-1.5 py-0.2 rounded-md"
+                  style={{
+                    backgroundColor: currentView === 'stream' ? 'rgba(0,0,0,0.25)' : 'var(--bg-subtle)',
+                    color: currentView === 'stream' ? 'var(--accent-primary-content)' : 'var(--text-muted)',
+                  }}
+                >
                   Live
                 </span>
               )}
@@ -116,21 +156,38 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             <button
               onClick={() => onViewChange('graph')}
-              className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'} rounded-xl text-sm font-medium transition-all ${
+              className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'} rounded-xl text-sm font-medium transition-all cursor-pointer`}
+              style={
                 currentView === 'graph'
-                  ? 'bg-indigo-600 text-white font-semibold shadow-xs'
-                  : 'text-slate-300 hover:text-white hover:bg-[#141924]'
-              }`}
+                  ? {
+                      backgroundColor: 'var(--bg-accent)',
+                      color: 'var(--accent-primary-content)',
+                      fontWeight: 600,
+                      boxShadow: 'var(--accent-glow)',
+                    }
+                  : {
+                      color: 'var(--text-secondary)',
+                    }
+              }
               title="Network Graph"
             >
               <div className="flex items-center gap-2.5">
-                <GitFork className={`h-4 w-4 ${currentView === 'graph' ? 'text-white' : 'text-cyan-400'}`} />
+                <GitFork
+                  className="h-4 w-4 shrink-0"
+                  style={{
+                    color: currentView === 'graph' ? 'var(--accent-primary-content)' : 'var(--accent-primary)',
+                  }}
+                />
                 {!isCollapsed && <span>Network Graph</span>}
               </div>
               {!isCollapsed && (
-                <span className={`text-xs font-mono px-1.5 py-0.2 rounded-md ${
-                  currentView === 'graph' ? 'bg-indigo-800 text-indigo-200' : 'bg-[#141924] text-slate-400'
-                }`}>
+                <span
+                  className="text-xs font-mono px-1.5 py-0.2 rounded-md"
+                  style={{
+                    backgroundColor: currentView === 'graph' ? 'rgba(0,0,0,0.25)' : 'var(--bg-subtle)',
+                    color: currentView === 'graph' ? 'var(--accent-primary-content)' : 'var(--text-muted)',
+                  }}
+                >
                   Nodes
                 </span>
               )}
@@ -138,21 +195,38 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             <button
               onClick={() => onViewChange('analytics')}
-              className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'} rounded-xl text-sm font-medium transition-all ${
+              className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'} rounded-xl text-sm font-medium transition-all cursor-pointer`}
+              style={
                 currentView === 'analytics'
-                  ? 'bg-indigo-600 text-white font-semibold shadow-xs'
-                  : 'text-slate-300 hover:text-white hover:bg-[#141924]'
-              }`}
+                  ? {
+                      backgroundColor: 'var(--bg-accent)',
+                      color: 'var(--accent-primary-content)',
+                      fontWeight: 600,
+                      boxShadow: 'var(--accent-glow)',
+                    }
+                  : {
+                      color: 'var(--text-secondary)',
+                    }
+              }
               title="Analytics & Trends"
             >
               <div className="flex items-center gap-2.5">
-                <BarChart2 className={`h-4 w-4 ${currentView === 'analytics' ? 'text-white' : 'text-amber-400'}`} />
+                <BarChart2
+                  className="h-4 w-4 shrink-0"
+                  style={{
+                    color: currentView === 'analytics' ? 'var(--accent-primary-content)' : 'var(--accent-primary)',
+                  }}
+                />
                 {!isCollapsed && <span>Analytics & Trends</span>}
               </div>
               {!isCollapsed && (
-                <span className={`text-xs font-mono px-1.5 py-0.2 rounded-md ${
-                  currentView === 'analytics' ? 'bg-indigo-800 text-indigo-200' : 'bg-[#141924] text-slate-400'
-                }`}>
+                <span
+                  className="text-xs font-mono px-1.5 py-0.2 rounded-md"
+                  style={{
+                    backgroundColor: currentView === 'analytics' ? 'rgba(0,0,0,0.25)' : 'var(--bg-subtle)',
+                    color: currentView === 'analytics' ? 'var(--accent-primary-content)' : 'var(--text-muted)',
+                  }}
+                >
                   7-Day
                 </span>
               )}
@@ -169,21 +243,39 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             <button
               onClick={() => onViewChange('simulator')}
-              className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'} rounded-xl text-sm font-medium transition-all ${
+              className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'} rounded-xl text-sm font-medium transition-all cursor-pointer`}
+              style={
                 currentView === 'simulator'
-                  ? 'bg-indigo-600 text-white font-semibold shadow-xs'
-                  : 'text-slate-300 hover:text-white hover:bg-[#141924]'
-              }`}
+                  ? {
+                      backgroundColor: 'var(--bg-accent)',
+                      color: 'var(--accent-primary-content)',
+                      fontWeight: 600,
+                      boxShadow: 'var(--accent-glow)',
+                    }
+                  : {
+                      color: 'var(--text-secondary)',
+                    }
+              }
               title="Agent Simulator (LangGraph)"
             >
               <div className="flex items-center gap-2.5">
-                <Terminal className={`h-4 w-4 ${currentView === 'simulator' ? 'text-white' : 'text-cyan-400'}`} />
+                <Terminal
+                  className="h-4 w-4 shrink-0"
+                  style={{
+                    color: currentView === 'simulator' ? 'var(--accent-primary-content)' : 'var(--accent-primary)',
+                  }}
+                />
                 {!isCollapsed && <span>Agent Simulator</span>}
               </div>
               {!isCollapsed && (
-                <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
-                  currentView === 'simulator' ? 'bg-indigo-800 text-indigo-200' : 'bg-cyan-950/60 text-cyan-300 border border-cyan-500/30'
-                }`}>
+                <span
+                  className="text-[10px] font-mono px-1.5 py-0.5 rounded border"
+                  style={{
+                    backgroundColor: currentView === 'simulator' ? 'rgba(0,0,0,0.25)' : 'var(--bg-accent-subtle)',
+                    borderColor: currentView === 'simulator' ? 'transparent' : 'var(--border-accent)',
+                    color: currentView === 'simulator' ? 'var(--accent-primary-content)' : 'var(--accent-primary-text)',
+                  }}
+                >
                   LangGraph
                 </span>
               )}
@@ -191,21 +283,39 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             <button
               onClick={() => onViewChange('stix')}
-              className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'} rounded-xl text-sm font-medium transition-all ${
+              className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'} rounded-xl text-sm font-medium transition-all cursor-pointer`}
+              style={
                 currentView === 'stix'
-                  ? 'bg-indigo-600 text-white font-semibold shadow-xs'
-                  : 'text-slate-300 hover:text-white hover:bg-[#141924]'
-              }`}
+                  ? {
+                      backgroundColor: 'var(--bg-accent)',
+                      color: 'var(--accent-primary-content)',
+                      fontWeight: 600,
+                      boxShadow: 'var(--accent-glow)',
+                    }
+                  : {
+                      color: 'var(--text-secondary)',
+                    }
+              }
               title="STIX 2.1 Hub (OASIS)"
             >
               <div className="flex items-center gap-2.5">
-                <FileCode className={`h-4 w-4 ${currentView === 'stix' ? 'text-white' : 'text-amber-400'}`} />
+                <FileCode
+                  className="h-4 w-4 shrink-0"
+                  style={{
+                    color: currentView === 'stix' ? 'var(--accent-primary-content)' : 'var(--accent-primary)',
+                  }}
+                />
                 {!isCollapsed && <span>STIX 2.1 Hub</span>}
               </div>
               {!isCollapsed && (
-                <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
-                  currentView === 'stix' ? 'bg-indigo-800 text-indigo-200' : 'bg-amber-950/60 text-amber-300 border border-amber-500/30'
-                }`}>
+                <span
+                  className="text-[10px] font-mono px-1.5 py-0.5 rounded border"
+                  style={{
+                    backgroundColor: currentView === 'stix' ? 'rgba(0,0,0,0.25)' : 'var(--bg-subtle)',
+                    borderColor: 'var(--border-subtle)',
+                    color: currentView === 'stix' ? 'var(--accent-primary-content)' : 'var(--text-secondary)',
+                  }}
+                >
                   OASIS
                 </span>
               )}
@@ -226,11 +336,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     onViewChange('stream');
                     onSelectFilter('ALL');
                   }}
-                  className={`w-full text-left px-3 py-1.5 rounded-lg text-xs font-mono transition-colors ${
-                    selectedFilter === 'ALL' && currentView === 'stream'
-                      ? 'bg-[#161c28] text-indigo-300 font-bold border border-indigo-500/30'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-[#121622]'
-                  }`}
+                  className="w-full text-left px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer"
+                  style={{
+                    backgroundColor: selectedFilter === 'ALL' && currentView === 'stream' ? 'var(--bg-accent-subtle)' : 'transparent',
+                    borderColor: selectedFilter === 'ALL' && currentView === 'stream' ? 'var(--border-accent)' : 'transparent',
+                    borderWidth: '1px',
+                    color: selectedFilter === 'ALL' && currentView === 'stream' ? 'var(--accent-primary-text)' : 'var(--text-secondary)',
+                    fontWeight: selectedFilter === 'ALL' && currentView === 'stream' ? 700 : 400,
+                  }}
                 >
                   &bull; All Targets (5)
                 </button>
@@ -240,17 +353,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     onViewChange('stream');
                     onSelectFilter('REBRANDS');
                   }}
-                  className={`w-full text-left px-3 py-1.5 rounded-lg text-xs font-mono transition-colors flex items-center justify-between ${
-                    selectedFilter === 'REBRANDS' && currentView === 'stream'
-                      ? 'bg-[#161c28] text-indigo-300 font-bold border border-indigo-500/30'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-[#121622]'
-                  }`}
+                  className="w-full text-left px-3 py-1.5 rounded-lg text-xs font-mono transition-colors flex items-center justify-between cursor-pointer"
+                  style={{
+                    backgroundColor: selectedFilter === 'REBRANDS' && currentView === 'stream' ? 'var(--bg-accent-subtle)' : 'transparent',
+                    borderColor: selectedFilter === 'REBRANDS' && currentView === 'stream' ? 'var(--border-accent)' : 'transparent',
+                    borderWidth: '1px',
+                    color: selectedFilter === 'REBRANDS' && currentView === 'stream' ? 'var(--accent-primary-text)' : 'var(--text-secondary)',
+                    fontWeight: selectedFilter === 'REBRANDS' && currentView === 'stream' ? 700 : 400,
+                  }}
                 >
                   <div className="flex items-center gap-1.5">
-                    <Sparkles className="h-3 w-3 text-indigo-400" />
+                    <Sparkles className="h-3 w-3" style={{ color: 'var(--accent-primary)' }} />
                     <span>Rebrand Matches</span>
                   </div>
-                  <span className="text-[10px] px-1 rounded bg-indigo-500/20 text-indigo-300">3</span>
+                  <span
+                    className="text-[10px] px-1 rounded border"
+                    style={{
+                      backgroundColor: 'var(--bg-accent-badge)',
+                      borderColor: 'var(--border-accent)',
+                      color: 'var(--accent-primary-text)',
+                    }}
+                  >
+                    3
+                  </span>
                 </button>
 
                 <button
@@ -258,14 +383,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     onViewChange('stream');
                     onSelectFilter('ILLICIT');
                   }}
-                  className={`w-full text-left px-3 py-1.5 rounded-lg text-xs font-mono transition-colors flex items-center justify-between ${
-                    selectedFilter === 'ILLICIT' && currentView === 'stream'
-                      ? 'bg-[#161c28] text-rose-300 font-bold border border-rose-500/30'
-                      : 'text-slate-400 hover:text-rose-300 hover:bg-[#121622]'
-                  }`}
+                  className="w-full text-left px-3 py-1.5 rounded-lg text-xs font-mono transition-colors flex items-center justify-between cursor-pointer"
+                  style={{
+                    backgroundColor: selectedFilter === 'ILLICIT' && currentView === 'stream' ? 'rgba(244, 63, 94, 0.15)' : 'transparent',
+                    borderColor: selectedFilter === 'ILLICIT' && currentView === 'stream' ? 'rgba(244, 63, 94, 0.35)' : 'transparent',
+                    borderWidth: '1px',
+                    color: selectedFilter === 'ILLICIT' && currentView === 'stream' ? '#fda4af' : 'var(--text-secondary)',
+                    fontWeight: selectedFilter === 'ILLICIT' && currentView === 'stream' ? 700 : 400,
+                  }}
                 >
                   <span>&bull; Illicit Contraband</span>
-                  <span className="text-[10px] px-1 rounded bg-rose-500/20 text-rose-400">3</span>
+                  <span className="text-[10px] px-1 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30">3</span>
                 </button>
 
                 <button
@@ -273,14 +401,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     onViewChange('stream');
                     onSelectFilter('PGP');
                   }}
-                  className={`w-full text-left px-3 py-1.5 rounded-lg text-xs font-mono transition-colors flex items-center justify-between ${
-                    selectedFilter === 'PGP' && currentView === 'stream'
-                      ? 'bg-[#161c28] text-emerald-300 font-bold border border-emerald-500/30'
-                      : 'text-slate-400 hover:text-emerald-300 hover:bg-[#121622]'
-                  }`}
+                  className="w-full text-left px-3 py-1.5 rounded-lg text-xs font-mono transition-colors flex items-center justify-between cursor-pointer"
+                  style={{
+                    backgroundColor: selectedFilter === 'PGP' && currentView === 'stream' ? 'rgba(16, 185, 129, 0.15)' : 'transparent',
+                    borderColor: selectedFilter === 'PGP' && currentView === 'stream' ? 'rgba(16, 185, 129, 0.35)' : 'transparent',
+                    borderWidth: '1px',
+                    color: selectedFilter === 'PGP' && currentView === 'stream' ? '#6ee7b7' : 'var(--text-secondary)',
+                    fontWeight: selectedFilter === 'PGP' && currentView === 'stream' ? 700 : 400,
+                  }}
                 >
                   <span>&bull; PGP Verified</span>
-                  <span className="text-[10px] px-1 rounded bg-emerald-500/20 text-emerald-400">4</span>
+                  <span className="text-[10px] px-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">4</span>
                 </button>
               </div>
             </div>
@@ -290,11 +421,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Bottom Status & Analyst Info */}
-      <div className={`p-3 border-t border-[#1c2333] space-y-3 bg-[#0a0d14] ${isCollapsed ? 'px-2' : ''}`}>
+      <div
+        className={`p-3 border-t space-y-3 ${isCollapsed ? 'px-2' : ''}`}
+        style={{
+          backgroundColor: 'var(--bg-sidebar)',
+          borderColor: 'var(--border-subtle)',
+        }}
+      >
         
         {/* Stream Live Indicator */}
         {!isCollapsed ? (
-          <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-[#0e121a] border border-[#1c2333] text-xs font-mono">
+          <div
+            className="flex items-center justify-between px-2.5 py-1.5 rounded-lg border text-xs font-mono"
+            style={{
+              backgroundColor: 'var(--bg-card)',
+              borderColor: 'var(--border-subtle)',
+            }}
+          >
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
               <span className="text-slate-300 font-medium">SOC Stream</span>
@@ -310,14 +453,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Analyst Profile */}
         <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-2.5 px-2'}`}>
           <div 
-            className="h-8 w-8 rounded-full bg-[#141924] border border-[#1c2333] flex items-center justify-center text-slate-300 shrink-0"
+            className="h-8 w-8 rounded-full border flex items-center justify-center shrink-0"
+            style={{
+              backgroundColor: 'var(--bg-subtle)',
+              borderColor: 'var(--border-subtle)',
+            }}
             title="Cyber SOC Analyst (ID CC-CHD #419)"
           >
-            <UserCheck className="h-4 w-4 text-indigo-400" />
+            <UserCheck className="h-4 w-4" style={{ color: 'var(--accent-primary)' }} />
           </div>
           {!isCollapsed && (
             <div className="text-left min-w-0 truncate">
-              <div className="text-xs font-bold text-slate-200 truncate">Cyber SOC Analyst</div>
+              <div className="text-xs font-bold truncate" style={{ color: 'var(--text-primary)' }}>
+                Cyber SOC Analyst
+              </div>
               <div className="text-[10px] text-slate-500 font-mono">ID CC-CHD #419</div>
             </div>
           )}

@@ -3,15 +3,15 @@ import {
   X, 
   Copy, 
   Check, 
-  Share2, 
-  Sparkles, 
+  MapPin, 
+  Network, 
   Fingerprint, 
   Coins, 
+  Sparkles, 
+  Share2, 
   ShieldAlert, 
-  Network, 
-  MapPin, 
-  Terminal, 
-  ArrowRight
+  ArrowRight,
+  Terminal
 } from 'lucide-react';
 import type { CTIListing } from '../types/cti';
 
@@ -36,7 +36,7 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
     setCopiedKey(key);
-    setTimeout(() => setCopiedKey(null), 2000);
+    setTimeout(() => setCopiedKey(null), 1500);
   };
 
   const threatScore = listing.enrichment?.threatScore ?? 0;
@@ -54,23 +54,52 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
       />
 
       {/* Slide-over Container */}
-      <div className="absolute inset-y-0 right-0 max-w-2xl w-full bg-[#0b0e14] border-l border-[#1c2333] shadow-2xl flex flex-col animate-slide-in-right z-50">
+      <div
+        className="absolute inset-y-0 right-0 max-w-2xl w-full border-l shadow-2xl flex flex-col animate-slide-in-right z-50"
+        style={{
+          backgroundColor: 'var(--bg-sidebar)',
+          borderColor: 'var(--border-subtle)',
+        }}
+      >
         
         {/* Drawer Header */}
-        <div className="p-4 border-b border-[#1c2333] bg-[#0e121a] flex items-center justify-between gap-3">
+        <div
+          className="p-4 border-b flex items-center justify-between gap-3"
+          style={{
+            backgroundColor: 'var(--bg-card)',
+            borderColor: 'var(--border-subtle)',
+          }}
+        >
           <div className="flex items-center gap-3 min-w-0">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 shrink-0">
+            <div
+              className="flex h-9 w-9 items-center justify-center rounded-xl border shrink-0"
+              style={{
+                backgroundColor: 'var(--bg-accent-subtle)',
+                borderColor: 'var(--border-accent)',
+                color: 'var(--accent-primary)',
+              }}
+            >
               <Network className="h-5 w-5" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-sm text-slate-400">{listing.id}</span>
                 <span className="text-slate-600">•</span>
-                <span className="font-bold text-base text-slate-100 truncate font-sans">
+                <span
+                  className="font-bold text-base truncate font-sans"
+                  style={{ color: 'var(--text-primary)' }}
+                >
                   {listing.vendor}
                 </span>
                 {listing.rebrandDetected && (
-                  <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 shrink-0">
+                  <span
+                    className="px-2 py-0.5 rounded text-xs font-mono font-bold border shrink-0"
+                    style={{
+                      backgroundColor: 'var(--bg-accent-badge)',
+                      borderColor: 'var(--border-accent)',
+                      color: 'var(--accent-primary-text)',
+                    }}
+                  >
                     REBRAND MATCHED
                   </span>
                 )}
@@ -86,7 +115,11 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={() => handleCopy(JSON.stringify(listing, null, 2), 'drawer_json')}
-              className="p-2 rounded-lg bg-[#141924] hover:bg-[#1b2230] text-slate-300 hover:text-white border border-[#20293d] transition-colors"
+              className="p-2 rounded-lg border text-slate-300 hover:text-white transition-colors cursor-pointer"
+              style={{
+                backgroundColor: 'var(--bg-subtle)',
+                borderColor: 'var(--border-subtle)',
+              }}
               title="Copy Raw Investigation JSON"
             >
               {copiedKey === 'drawer_json' ? (
@@ -98,7 +131,12 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
 
             <button
               onClick={() => onOpenStix(listing)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 text-xs font-mono transition-colors font-semibold"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-mono transition-colors font-semibold cursor-pointer"
+              style={{
+                backgroundColor: 'var(--bg-accent-subtle)',
+                borderColor: 'var(--border-accent)',
+                color: 'var(--accent-primary-text)',
+              }}
               title="Inspect STIX 2.1 Bundle"
             >
               <Share2 className="h-3.5 w-3.5 text-amber-400" />
@@ -107,7 +145,8 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
 
             <button
               onClick={onClose}
-              className="p-2 rounded-lg bg-[#141924] hover:bg-[#20283d] text-slate-400 hover:text-white transition-colors"
+              className="p-2 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
+              style={{ backgroundColor: 'var(--bg-subtle)' }}
             >
               <X className="h-4 w-4" />
             </button>
@@ -115,19 +154,32 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
         </div>
 
         {/* Tab Navigation */}
-        <div className="px-5 border-b border-[#1c2333] bg-[#0e121a]/60 flex items-center gap-6 text-sm font-medium">
+        <div
+          className="px-5 border-b flex items-center gap-6 text-sm font-medium"
+          style={{
+            backgroundColor: 'var(--bg-card)',
+            borderColor: 'var(--border-subtle)',
+          }}
+        >
           <button
             onClick={() => setActiveTab('identity')}
-            className={`py-3 border-b-2 flex items-center gap-2 transition-colors ${
-              activeTab === 'identity'
-                ? 'border-indigo-500 text-indigo-300 font-bold'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
-            }`}
+            className="py-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer"
+            style={{
+              borderColor: activeTab === 'identity' ? 'var(--accent-primary)' : 'transparent',
+              color: activeTab === 'identity' ? 'var(--accent-primary-text)' : 'var(--text-secondary)',
+              fontWeight: activeTab === 'identity' ? 700 : 500,
+            }}
           >
             <Fingerprint className="h-4 w-4" />
             <span>Entity Resolution</span>
             {listing.linkedAliases && listing.linkedAliases.length > 0 && (
-              <span className="px-2 py-0.2 rounded-full text-xs font-mono bg-indigo-500/20 text-indigo-300 font-bold">
+              <span
+                className="px-2 py-0.2 rounded-full text-xs font-mono font-bold"
+                style={{
+                  backgroundColor: 'var(--bg-accent-badge)',
+                  color: 'var(--accent-primary-text)',
+                }}
+              >
                 {listing.linkedAliases.length}
               </span>
             )}
@@ -135,11 +187,12 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
 
           <button
             onClick={() => setActiveTab('copilot')}
-            className={`py-3 border-b-2 flex items-center gap-2 transition-colors ${
-              activeTab === 'copilot'
-                ? 'border-indigo-500 text-indigo-300 font-bold'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
-            }`}
+            className="py-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer"
+            style={{
+              borderColor: activeTab === 'copilot' ? 'var(--accent-primary)' : 'transparent',
+              color: activeTab === 'copilot' ? 'var(--accent-primary-text)' : 'var(--text-secondary)',
+              fontWeight: activeTab === 'copilot' ? 700 : 500,
+            }}
           >
             <Sparkles className="h-4 w-4 text-amber-400" />
             <span>AI Copilot Brief</span>
@@ -147,11 +200,12 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
 
           <button
             onClick={() => setActiveTab('forensics')}
-            className={`py-3 border-b-2 flex items-center gap-2 transition-colors ${
-              activeTab === 'forensics'
-                ? 'border-indigo-500 text-indigo-300 font-bold'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
-            }`}
+            className="py-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer"
+            style={{
+              borderColor: activeTab === 'forensics' ? 'var(--accent-primary)' : 'transparent',
+              color: activeTab === 'forensics' ? 'var(--accent-primary-text)' : 'var(--text-secondary)',
+              fontWeight: activeTab === 'forensics' ? 700 : 500,
+            }}
           >
             <Coins className="h-4 w-4 text-amber-400" />
             <span>On-Chain Forensics</span>
@@ -159,26 +213,36 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
 
           <button
             onClick={() => setActiveTab('pipeline')}
-            className={`py-3 border-b-2 flex items-center gap-2 transition-colors ${
-              activeTab === 'pipeline'
-                ? 'border-indigo-500 text-indigo-300 font-bold'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
-            }`}
+            className="py-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer"
+            style={{
+              borderColor: activeTab === 'pipeline' ? 'var(--accent-primary)' : 'transparent',
+              color: activeTab === 'pipeline' ? 'var(--accent-primary-text)' : 'var(--text-secondary)',
+              fontWeight: activeTab === 'pipeline' ? 700 : 500,
+            }}
           >
-            <Terminal className="h-4 w-4 text-cyan-400" />
+            <Terminal className="h-4 w-4" style={{ color: 'var(--accent-primary)' }} />
             <span>Pipeline Audit</span>
           </button>
         </div>
 
         {/* Drawer Body */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#080a0f]">
+        <div
+          className="flex-1 overflow-y-auto p-6 space-y-6"
+          style={{ backgroundColor: 'var(--bg-canvas)' }}
+        >
           
           {/* TAB 1: ENTITY RESOLUTION & REBRAND MATRIX */}
           {activeTab === 'identity' && (
             <div className="space-y-5">
               
               {/* Evidence Snippet */}
-              <div className="p-4 rounded-2xl bg-[#0e121a] border border-[#1c2333]">
+              <div
+                className="p-4 rounded-2xl border"
+                style={{
+                  backgroundColor: 'var(--bg-card)',
+                  borderColor: 'var(--border-subtle)',
+                }}
+              >
                 <div className="text-xs font-mono uppercase text-slate-500 font-bold mb-1.5">
                   Raw Intercepted Listing Evidence
                 </div>
@@ -194,16 +258,35 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
               </div>
 
               {/* Cross-Platform Rebrand Resolution Section */}
-              <div className="p-4 rounded-2xl bg-[#0e121a] border border-[#1c2333] space-y-3.5">
-                <div className="flex items-center justify-between border-b border-[#1c2333] pb-2.5">
+              <div
+                className="p-4 rounded-2xl border space-y-3.5"
+                style={{
+                  backgroundColor: 'var(--bg-card)',
+                  borderColor: 'var(--border-subtle)',
+                }}
+              >
+                <div
+                  className="flex items-center justify-between border-b pb-2.5"
+                  style={{ borderColor: 'var(--border-subtle)' }}
+                >
                   <div className="flex items-center gap-2">
-                    <Network className="h-4 w-4 text-indigo-400" />
-                    <span className="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono">
+                    <Network className="h-4 w-4" style={{ color: 'var(--accent-primary)' }} />
+                    <span
+                      className="text-xs font-bold uppercase tracking-wider font-mono"
+                      style={{ color: 'var(--text-primary)' }}
+                    >
                       Cross-Platform Linked Personas & Migration History
                     </span>
                   </div>
                   {listing.resolvedIdentityCluster && (
-                    <span className="text-xs font-mono text-indigo-300 bg-indigo-950/60 px-2.5 py-0.5 rounded-md border border-indigo-500/30">
+                    <span
+                      className="text-xs font-mono px-2.5 py-0.5 rounded-md border"
+                      style={{
+                        backgroundColor: 'var(--bg-accent-subtle)',
+                        borderColor: 'var(--border-accent)',
+                        color: 'var(--accent-primary-text)',
+                      }}
+                    >
                       {listing.resolvedIdentityCluster}
                     </span>
                   )}
@@ -218,23 +301,40 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
                       {listing.linkedAliases.map((linked, idx) => (
                         <div
                           key={idx}
-                          className="p-3.5 rounded-xl bg-[#121622] border border-[#20283d] flex items-center justify-between gap-3 text-sm"
+                          className="p-3.5 rounded-xl border flex items-center justify-between gap-3 text-sm"
+                          style={{
+                            backgroundColor: 'var(--bg-subtle)',
+                            borderColor: 'var(--border-subtle)',
+                          }}
                         >
                           <div className="space-y-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className="font-bold text-slate-100 font-mono text-sm">
+                              <span
+                                className="font-bold font-mono text-sm"
+                                style={{ color: 'var(--text-primary)' }}
+                              >
                                 {linked.alias}
                               </span>
-                              <span className="px-2 py-0.5 rounded text-xs font-mono font-semibold bg-[#1a2130] text-slate-300 border border-[#2d3852]">
+                              <span
+                                className="px-2 py-0.5 rounded text-xs font-mono font-semibold border"
+                                style={{
+                                  backgroundColor: 'var(--bg-card)',
+                                  borderColor: 'var(--border-subtle)',
+                                  color: 'var(--text-secondary)',
+                                }}
+                              >
                                 {linked.platform}
                               </span>
                               <span className="text-xs font-mono text-emerald-400 font-semibold">
                                 ({(linked.confidence * 100).toFixed(0)}% Match)
                               </span>
                             </div>
-                            <div className="text-xs font-mono text-indigo-300 flex items-center gap-1.5 truncate">
+                            <div
+                              className="text-xs font-mono flex items-center gap-1.5 truncate"
+                              style={{ color: 'var(--accent-primary-text)' }}
+                            >
                               <span>Matched via:</span>
-                              <strong className="text-indigo-200">{linked.matchedIndicator}</strong>
+                              <strong>{linked.matchedIndicator}</strong>
                             </div>
                           </div>
 
@@ -265,7 +365,13 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
 
               {/* Cryptographic Fingerprint Card */}
               {listing.extracted.pgpKey && (
-                <div className="p-4 rounded-2xl bg-[#0e121a] border border-[#1c2333] space-y-2.5">
+                <div
+                  className="p-4 rounded-2xl border space-y-2.5"
+                  style={{
+                    backgroundColor: 'var(--bg-card)',
+                    borderColor: 'var(--border-subtle)',
+                  }}
+                >
                   <div className="flex items-center justify-between text-xs font-mono uppercase text-slate-400 font-bold">
                     <div className="flex items-center gap-2">
                       <Fingerprint className="h-4 w-4 text-emerald-400" />
@@ -276,11 +382,17 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
                     </span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-black/60 border border-[#1c2333] font-mono text-xs text-slate-200 flex items-center justify-between gap-2">
+                  <div
+                    className="p-3 rounded-xl border font-mono text-xs text-slate-200 flex items-center justify-between gap-2"
+                    style={{
+                      backgroundColor: 'rgba(0,0,0,0.4)',
+                      borderColor: 'var(--border-subtle)',
+                    }}
+                  >
                     <span className="truncate">{listing.extracted.pgpKey.fingerprint}</span>
                     <button
                       onClick={() => handleCopy(listing.extracted.pgpKey!.fingerprint, 'pgp_fp')}
-                      className="p-1.5 rounded-lg hover:bg-[#1a2130] text-slate-400 hover:text-white transition-colors"
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
                       title="Copy PGP Fingerprint"
                     >
                       {copiedKey === 'pgp_fp' ? (
@@ -295,7 +407,13 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
 
               {/* Direct Communication Handles */}
               {listing.extracted.commsHandles.length > 0 && (
-                <div className="p-4 rounded-2xl bg-[#0e121a] border border-[#1c2333] space-y-2.5">
+                <div
+                  className="p-4 rounded-2xl border space-y-2.5"
+                  style={{
+                    backgroundColor: 'var(--bg-card)',
+                    borderColor: 'var(--border-subtle)',
+                  }}
+                >
                   <div className="text-xs font-mono uppercase text-slate-400 font-bold">
                     Intercepted Contact Handles & Channels ({listing.extracted.commsHandles.length})
                   </div>
@@ -304,7 +422,12 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
                       <button
                         key={idx}
                         onClick={() => handleCopy(handle, `handle_${idx}`)}
-                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#121622] hover:bg-[#1a2130] border border-[#20283d] text-slate-200 font-mono text-xs transition-colors"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border font-mono text-xs transition-colors cursor-pointer"
+                        style={{
+                          backgroundColor: 'var(--bg-subtle)',
+                          borderColor: 'var(--border-subtle)',
+                          color: 'var(--text-primary)',
+                        }}
                       >
                         <span>{handle}</span>
                         {copiedKey === `handle_${idx}` ? (
@@ -327,22 +450,49 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
               {listing.copilot ? (
                 <>
                   {/* Plain English Summary */}
-                  <div className="p-4 rounded-2xl bg-gradient-to-b from-[#101420] to-[#0e121a] border border-indigo-500/30 space-y-2.5">
-                    <div className="flex items-center gap-2 text-indigo-300 font-bold text-xs uppercase tracking-wider font-mono">
-                      <Sparkles className="h-4 w-4 text-indigo-400" />
+                  <div
+                    className="p-4 rounded-2xl border space-y-2.5"
+                    style={{
+                      backgroundColor: 'var(--bg-card)',
+                      borderColor: 'var(--border-accent)',
+                    }}
+                  >
+                    <div
+                      className="flex items-center gap-2 font-bold text-xs uppercase tracking-wider font-mono"
+                      style={{ color: 'var(--accent-primary-text)' }}
+                    >
+                      <Sparkles className="h-4 w-4" style={{ color: 'var(--accent-primary)' }} />
                       <span>AI Intelligence Executive Summary</span>
                     </div>
-                    <p className="text-sm text-slate-200 leading-relaxed font-sans">
+                    <p
+                      className="text-sm leading-relaxed font-sans"
+                      style={{ color: 'var(--text-primary)' }}
+                    >
                       {listing.copilot.plainEnglishSummary}
                     </p>
-                    <div className="pt-2.5 border-t border-[#1c2333] text-xs font-mono text-amber-400">
+                    <div
+                      className="pt-2.5 border-t text-xs font-mono text-amber-400"
+                      style={{ borderColor: 'var(--border-subtle)' }}
+                    >
                       <strong>Threat Level:</strong> {listing.copilot.threatAssessment}
                     </div>
                   </div>
 
                   {/* Recommended Law Enforcement Actions */}
-                  <div className="p-4 rounded-2xl bg-[#0e121a] border border-[#1c2333] space-y-3.5">
-                    <div className="flex items-center gap-2 text-slate-200 font-bold text-xs uppercase tracking-wider font-mono border-b border-[#1c2333] pb-2.5">
+                  <div
+                    className="p-4 rounded-2xl border space-y-3.5"
+                    style={{
+                      backgroundColor: 'var(--bg-card)',
+                      borderColor: 'var(--border-subtle)',
+                    }}
+                  >
+                    <div
+                      className="flex items-center gap-2 font-bold text-xs uppercase tracking-wider font-mono border-b pb-2.5"
+                      style={{
+                        borderColor: 'var(--border-subtle)',
+                        color: 'var(--text-primary)',
+                      }}
+                    >
                       <ShieldAlert className="h-4 w-4 text-rose-400" />
                       <span>Recommended Law Enforcement Actions</span>
                     </div>
@@ -351,11 +501,18 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
                       {listing.copilot.recommendedActions.map((rec, idx) => (
                         <div
                           key={idx}
-                          className="p-3.5 rounded-xl bg-[#121622] border border-[#20283d] space-y-2"
+                          className="p-3.5 rounded-xl border space-y-2"
+                          style={{
+                            backgroundColor: 'var(--bg-subtle)',
+                            borderColor: 'var(--border-subtle)',
+                          }}
                         >
                           <div className="flex items-center justify-between gap-2">
-                            <div className="flex items-center gap-2 font-bold text-sm text-slate-100">
-                              <ArrowRight className="h-4 w-4 text-indigo-400 shrink-0" />
+                            <div
+                              className="flex items-center gap-2 font-bold text-sm"
+                              style={{ color: 'var(--text-primary)' }}
+                            >
+                              <ArrowRight className="h-4 w-4 shrink-0" style={{ color: 'var(--accent-primary)' }} />
                               <span>{rec.action}</span>
                             </div>
                             <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
@@ -366,8 +523,11 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
                               {rec.priority}
                             </span>
                           </div>
-                          <div className="text-xs font-mono text-indigo-300 pl-6">
-                            Target: <strong className="text-slate-200">{rec.target}</strong>
+                          <div
+                            className="text-xs font-mono pl-6"
+                            style={{ color: 'var(--accent-primary-text)' }}
+                          >
+                            Target: <strong style={{ color: 'var(--text-primary)' }}>{rec.target}</strong>
                           </div>
                           <div className="text-sm text-slate-300 pl-6 font-sans leading-relaxed">
                             {rec.justification}
@@ -378,14 +538,22 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
                   </div>
 
                   {/* Chain of Custody & Hash */}
-                  <div className="p-3.5 rounded-2xl bg-[#0e121a] border border-[#1c2333] flex items-center justify-between text-xs font-mono text-slate-400">
+                  <div
+                    className="p-3.5 rounded-2xl border flex items-center justify-between text-xs font-mono text-slate-400"
+                    style={{
+                      backgroundColor: 'var(--bg-card)',
+                      borderColor: 'var(--border-subtle)',
+                    }}
+                  >
                     <div className="truncate mr-2">
                       <span>Evidence Custody Hash: </span>
-                      <span className="text-slate-200 font-bold">{listing.copilot.chainOfCustodyHash}</span>
+                      <span className="font-bold" style={{ color: 'var(--text-primary)' }}>
+                        {listing.copilot.chainOfCustodyHash}
+                      </span>
                     </div>
                     <button
                       onClick={() => handleCopy(listing.copilot!.chainOfCustodyHash, 'custody_hash')}
-                      className="p-1.5 rounded-lg hover:bg-[#1a2130] text-slate-400 hover:text-white shrink-0"
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-white shrink-0 cursor-pointer"
                     >
                       {copiedKey === 'custody_hash' ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
                     </button>
@@ -409,14 +577,29 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
                   <div className="text-xs uppercase font-mono tracking-wider mt-1 font-semibold">Threat Score</div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-[#0e121a] border border-[#1c2333] flex flex-col items-center justify-center text-center">
-                  <div className="text-xl font-bold font-mono text-slate-100">
+                <div
+                  className="p-4 rounded-2xl border flex flex-col items-center justify-center text-center"
+                  style={{
+                    backgroundColor: 'var(--bg-card)',
+                    borderColor: 'var(--border-subtle)',
+                  }}
+                >
+                  <div
+                    className="text-xl font-bold font-mono"
+                    style={{ color: 'var(--text-primary)' }}
+                  >
                     {listing.enrichment ? `$${(listing.enrichment.onChainVolumeUsd / 1000).toFixed(0)}k USD` : 'N/A'}
                   </div>
                   <div className="text-xs uppercase font-mono text-slate-400 tracking-wider mt-1 font-semibold">On-Chain Volume</div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-[#0e121a] border border-[#1c2333] flex flex-col items-center justify-center text-center">
+                <div
+                  className="p-4 rounded-2xl border flex flex-col items-center justify-center text-center"
+                  style={{
+                    backgroundColor: 'var(--bg-card)',
+                    borderColor: 'var(--border-subtle)',
+                  }}
+                >
                   <div className="text-xl font-bold font-mono text-amber-300">
                     {listing.enrichment?.mixerHopsDetected ?? 0} Mixer Hops
                   </div>
@@ -425,8 +608,20 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
               </div>
 
               {/* Cryptocurrency Wallets */}
-              <div className="p-4 rounded-2xl bg-[#0e121a] border border-[#1c2333] space-y-3.5">
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono border-b border-[#1c2333] pb-2.5">
+              <div
+                className="p-4 rounded-2xl border space-y-3.5"
+                style={{
+                  backgroundColor: 'var(--bg-card)',
+                  borderColor: 'var(--border-subtle)',
+                }}
+              >
+                <div
+                  className="text-xs font-bold uppercase tracking-wider font-mono border-b pb-2.5"
+                  style={{
+                    borderColor: 'var(--border-subtle)',
+                    color: 'var(--text-primary)',
+                  }}
+                >
                   Identified Cryptocurrency Wallets ({listing.extracted.wallets.length})
                 </div>
 
@@ -434,12 +629,21 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
                   {listing.extracted.wallets.map((wallet, idx) => (
                     <div
                       key={idx}
-                      className="p-3.5 rounded-xl bg-[#121622] border border-[#20283d] flex items-center justify-between gap-3 text-xs font-mono"
+                      className="p-3.5 rounded-xl border flex items-center justify-between gap-3 text-xs font-mono"
+                      style={{
+                        backgroundColor: 'var(--bg-subtle)',
+                        borderColor: 'var(--border-subtle)',
+                      }}
                     >
                       <div className="space-y-1.5 min-w-0">
                         <div className="flex items-center gap-2">
                           <span className="font-bold text-amber-400 text-sm">{wallet.currency}:</span>
-                          <span className="text-slate-100 truncate text-xs font-semibold">{wallet.address}</span>
+                          <span
+                            className="truncate text-xs font-semibold"
+                            style={{ color: 'var(--text-primary)' }}
+                          >
+                            {wallet.address}
+                          </span>
                           {wallet.isTainted && (
                             <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30">
                               TAINTED
@@ -452,7 +656,10 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
                           </div>
                         )}
                         {wallet.clusterTag && (
-                          <div className="text-xs text-indigo-300 font-medium">
+                          <div
+                            className="text-xs font-medium"
+                            style={{ color: 'var(--accent-primary-text)' }}
+                          >
                             Cluster: {wallet.clusterTag}
                           </div>
                         )}
@@ -460,7 +667,11 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
 
                       <button
                         onClick={() => handleCopy(wallet.address, `w_addr_${idx}`)}
-                        className="p-2 rounded-lg bg-[#1a2130] hover:bg-[#232c40] text-slate-300 hover:text-white transition-colors shrink-0"
+                        className="p-2 rounded-lg border text-slate-300 hover:text-white transition-colors shrink-0 cursor-pointer"
+                        style={{
+                          backgroundColor: 'var(--bg-card)',
+                          borderColor: 'var(--border-subtle)',
+                        }}
                         title="Copy Wallet Hash"
                       >
                         {copiedKey === `w_addr_${idx}` ? (
@@ -476,8 +687,20 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
 
               {/* Risk Flags & Threat Intel Matches */}
               {listing.enrichment && (
-                <div className="p-4 rounded-2xl bg-[#0e121a] border border-[#1c2333] space-y-3.5">
-                  <div className="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono border-b border-[#1c2333] pb-2.5">
+                <div
+                  className="p-4 rounded-2xl border space-y-3.5"
+                  style={{
+                    backgroundColor: 'var(--bg-card)',
+                    borderColor: 'var(--border-subtle)',
+                  }}
+                >
+                  <div
+                    className="text-xs font-bold uppercase tracking-wider font-mono border-b pb-2.5"
+                    style={{
+                      borderColor: 'var(--border-subtle)',
+                      color: 'var(--text-primary)',
+                    }}
+                  >
                     Active Forensic Risk Flags ({listing.enrichment.riskFlags.length})
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -514,13 +737,25 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
           {/* TAB 4: PIPELINE TRACE & AUDIT */}
           {activeTab === 'pipeline' && (
             <div className="space-y-5">
-              <div className="p-4 rounded-2xl bg-[#0e121a] border border-[#1c2333] space-y-3.5">
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono border-b border-[#1c2333] pb-2.5 flex items-center justify-between">
+              <div
+                className="p-4 rounded-2xl border space-y-3.5"
+                style={{
+                  backgroundColor: 'var(--bg-card)',
+                  borderColor: 'var(--border-subtle)',
+                }}
+              >
+                <div
+                  className="text-xs font-bold uppercase tracking-wider font-mono border-b pb-2.5 flex items-center justify-between"
+                  style={{
+                    borderColor: 'var(--border-subtle)',
+                    color: 'var(--text-primary)',
+                  }}
+                >
                   <span>LangGraph Autonomous Execution Trace</span>
                   <span className="text-xs text-slate-400 font-mono">v2.1 State Flow</span>
                 </div>
 
-                <div className="relative pl-5 space-y-5 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-[#1c2333]">
+                <div className="relative pl-5 space-y-5 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-[#20283d]">
                   {listing.pipelineTrace.map((step, idx) => {
                     const isDone = step.status === 'DONE' || step.status === 'ENRICHED';
                     const isBypassed = step.status === 'BYPASSED';
@@ -541,7 +776,12 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
 
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <span className="font-bold font-mono text-slate-200 text-xs">{step.name}</span>
+                            <span
+                              className="font-bold font-mono text-xs"
+                              style={{ color: 'var(--text-primary)' }}
+                            >
+                              {step.name}
+                            </span>
                             <span className="text-xs text-slate-400 font-mono">({step.subtext})</span>
                           </div>
                           <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
@@ -569,11 +809,18 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
         </div>
 
         {/* Drawer Footer */}
-        <div className="p-4 border-t border-[#1c2333] bg-[#0e121a] flex items-center justify-between text-xs font-mono text-slate-400">
-          <span>Target Cluster: <strong className="text-slate-200">{listing.resolvedIdentityCluster ?? 'STANDALONE'}</strong></span>
+        <div
+          className="p-4 border-t flex items-center justify-between text-xs font-mono text-slate-400"
+          style={{
+            backgroundColor: 'var(--bg-card)',
+            borderColor: 'var(--border-subtle)',
+          }}
+        >
+          <span>Target Cluster: <strong style={{ color: 'var(--text-primary)' }}>{listing.resolvedIdentityCluster ?? 'STANDALONE'}</strong></span>
           <button
             onClick={() => onOpenStix(listing)}
-            className="text-indigo-400 hover:text-indigo-300 underline font-semibold"
+            className="underline font-semibold cursor-pointer"
+            style={{ color: 'var(--accent-primary-text)' }}
           >
             Export OASIS STIX 2.1 Bundle &rarr;
           </button>

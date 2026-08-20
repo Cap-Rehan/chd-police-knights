@@ -8,10 +8,11 @@ import { ThreatIntelligencePanels } from './components/ThreatIntelligencePanels'
 import { STIXHubView } from './components/STIXHubView';
 import { AgentSimulatorView } from './components/AgentSimulatorView';
 import { InvestigationDrawer } from './components/InvestigationDrawer';
+import { ThemeProvider } from './context';
 import { mockListings, mockKPIMetrics } from './data/mockData';
 import type { CTIListing } from './types/cti';
 
-export function App() {
+export function AppContent() {
   const [currentView, setCurrentView] = useState<'stream' | 'graph' | 'analytics' | 'simulator' | 'stix'>('stream');
   const [selectedFilter, setSelectedFilter] = useState<'ALL' | 'REBRANDS' | 'ILLICIT' | 'SCAMS' | 'PGP'>('ALL');
   const [listings, setListings] = useState<CTIListing[]>(mockListings);
@@ -83,8 +84,13 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080a0f] text-slate-200 flex font-sans selection:bg-indigo-500/20 selection:text-indigo-200">
-      
+    <div
+      className="min-h-screen flex font-sans transition-colors duration-200"
+      style={{
+        backgroundColor: 'var(--bg-canvas)',
+        color: 'var(--text-primary)',
+      }}
+    >
       {/* Left Application Collapsible Sidebar */}
       <Sidebar
         currentView={currentView}
@@ -97,7 +103,6 @@ export function App() {
 
       {/* Main Right Content Panel */}
       <div className="flex-1 flex flex-col min-w-0">
-        
         {/* Top Lightweight Utility Header */}
         <Header
           currentView={currentView}
@@ -107,7 +112,6 @@ export function App() {
 
         {/* Main Content Workspace */}
         <main className="flex-1 p-6 max-w-[1560px] w-full mx-auto">
-          
           {/* View 1: High-Signal Threat Stream Table */}
           {currentView === 'stream' && (
             <div className="space-y-6 animate-in fade-in duration-150">
@@ -130,7 +134,7 @@ export function App() {
             />
           )}
 
-          {/* View 3: Analytics & Intelligence Trends (Spacious 2-Column Command Center) */}
+          {/* View 3: Analytics & Intelligence Trends */}
           {currentView === 'analytics' && (
             <ThreatIntelligencePanels metrics={mockKPIMetrics} />
           )}
@@ -150,11 +154,10 @@ export function App() {
               onSelectListing={(l) => setSelectedListing(l)}
             />
           )}
-
         </main>
       </div>
 
-      {/* Slide-over Investigation Drawer (Progressive Disclosure) */}
+      {/* Slide-over Investigation Drawer */}
       <InvestigationDrawer
         listing={selectedListing}
         isOpen={isDrawerOpen}
@@ -162,6 +165,14 @@ export function App() {
         onOpenStix={handleOpenStixFromDrawer}
       />
     </div>
+  );
+}
+
+export function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 }
 

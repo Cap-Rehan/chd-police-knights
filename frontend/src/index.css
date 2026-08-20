@@ -1,23 +1,167 @@
 @import "tailwindcss";
 
 @layer base {
-  :root {
+  /* =========================================================================
+     DEFAULT THEME: Linear Graphite (Electric Cyan Accent)
+     ========================================================================= */
+  :root,
+  [data-theme="linear"] {
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-    /* Theme Tokens */
-    --bg-canvas: #080a0f;
-    --bg-sidebar: #0a0d14;
-    --bg-card: #0e121a;
-    --bg-card-hover: #141924;
-    --bg-subtle: #181f2e;
-    --border-subtle: #1c2333;
-    --border-hover: #2a354d;
-    --accent-indigo: #6366f1;
+    /* Base Surfaces */
+    --bg-canvas: #08090a;
+    --bg-sidebar: #0c0d0e;
+    --bg-header: #0c0d0e;
+    --bg-card: #121316;
+    --bg-card-hover: #18191e;
+    --bg-subtle: #1a1c22;
+    --bg-input: #121316;
+
+    /* Borders */
+    --border-subtle: #202227;
+    --border-hover: #2e323b;
+    --border-accent: rgba(6, 182, 212, 0.4);
+
+    /* Primary Accent (Electric Cyan) */
+    --accent-primary: #06b6d4;
+    --accent-primary-hover: #22d3ee;
+    --accent-primary-text: #22d3ee;
+    --accent-primary-content: #08090a;
+    --bg-accent: #06b6d4;
+    --bg-accent-hover: #0891b2;
+    --bg-accent-subtle: rgba(6, 182, 212, 0.12);
+    --bg-accent-badge: rgba(6, 182, 212, 0.15);
+    --accent-glow: 0 0 20px rgba(6, 182, 212, 0.25);
+
+    /* Typography */
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --text-muted: #64748b;
+
+    /* Selection & Scrollbar */
+    --selection-bg: rgba(6, 182, 212, 0.25);
+    --selection-text: #67e8f9;
+    --scrollbar-bg: #08090a;
+    --scrollbar-thumb: #202227;
+    --scrollbar-thumb-hover: #2e323b;
+
+    /* Fixed Signal Tokens */
     --accent-cyan: #06b6d4;
     --accent-emerald: #10b981;
     --accent-amber: #f59e0b;
     --accent-rose: #f43f5e;
+  }
+
+  /* =========================================================================
+     THEME 2: Vercel Obsidian (Pitch Black & Razor Monochromatic)
+     ========================================================================= */
+  [data-theme="vercel"] {
+    --bg-canvas: #000000;
+    --bg-sidebar: #080808;
+    --bg-header: #080808;
+    --bg-card: #0d0d0d;
+    --bg-card-hover: #141414;
+    --bg-subtle: #181818;
+    --bg-input: #0a0a0a;
+
+    --border-subtle: #222222;
+    --border-hover: #383838;
+    --border-accent: rgba(255, 255, 255, 0.35);
+
+    --accent-primary: #ffffff;
+    --accent-primary-hover: #e5e5e5;
+    --accent-primary-text: #ffffff;
+    --accent-primary-content: #000000;
+    --bg-accent: #ffffff;
+    --bg-accent-hover: #e5e5e5;
+    --bg-accent-subtle: rgba(255, 255, 255, 0.08);
+    --bg-accent-badge: rgba(255, 255, 255, 0.12);
+    --accent-glow: 0 0 20px rgba(255, 255, 255, 0.15);
+
+    --text-primary: #ededed;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+
+    --selection-bg: rgba(255, 255, 255, 0.2);
+    --selection-text: #ffffff;
+    --scrollbar-bg: #000000;
+    --scrollbar-thumb: #222222;
+    --scrollbar-thumb-hover: #383838;
+  }
+
+  /* =========================================================================
+     THEME 3: Tactical SOC (Stealth Dark & Radar Emerald)
+     ========================================================================= */
+  [data-theme="tactical"] {
+    --bg-canvas: #05070a;
+    --bg-sidebar: #080d14;
+    --bg-header: #080d14;
+    --bg-card: #0c131d;
+    --bg-card-hover: #111a27;
+    --bg-subtle: #152232;
+    --bg-input: #0a1019;
+
+    --border-subtle: #172335;
+    --border-hover: #22354e;
+    --border-accent: rgba(16, 185, 129, 0.45);
+
+    --accent-primary: #10b981;
+    --accent-primary-hover: #34d399;
+    --accent-primary-text: #34d399;
+    --accent-primary-content: #022c22;
+    --bg-accent: #10b981;
+    --bg-accent-hover: #059669;
+    --bg-accent-subtle: rgba(16, 185, 129, 0.12);
+    --bg-accent-badge: rgba(16, 185, 129, 0.18);
+    --accent-glow: 0 0 20px rgba(16, 185, 129, 0.25);
+
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    --selection-bg: rgba(16, 185, 129, 0.25);
+    --selection-text: #6ee7b7;
+    --scrollbar-bg: #05070a;
+    --scrollbar-thumb: #172335;
+    --scrollbar-thumb-hover: #22354e;
+  }
+
+  /* =========================================================================
+     THEME 4: Cyber Cobalt (Deep Carbon & Electric Sky Blue)
+     ========================================================================= */
+  [data-theme="cobalt"] {
+    --bg-canvas: #070a10;
+    --bg-sidebar: #0b101b;
+    --bg-header: #0b101b;
+    --bg-card: #101726;
+    --bg-card-hover: #172033;
+    --bg-subtle: #1c273e;
+    --bg-input: #0d1422;
+
+    --border-subtle: #1d2a42;
+    --border-hover: #2a3d5e;
+    --border-accent: rgba(59, 130, 246, 0.45);
+
+    --accent-primary: #3b82f6;
+    --accent-primary-hover: #60a5fa;
+    --accent-primary-text: #60a5fa;
+    --accent-primary-content: #ffffff;
+    --bg-accent: #3b82f6;
+    --bg-accent-hover: #2563eb;
+    --bg-accent-subtle: rgba(59, 130, 246, 0.14);
+    --bg-accent-badge: rgba(59, 130, 246, 0.2);
+    --accent-glow: 0 0 20px rgba(59, 130, 246, 0.25);
+
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    --selection-bg: rgba(59, 130, 246, 0.25);
+    --selection-text: #93c5fd;
+    --scrollbar-bg: #070a10;
+    --scrollbar-thumb: #1d2a42;
+    --scrollbar-thumb-hover: #2a3d5e;
   }
 
   html {
@@ -27,11 +171,12 @@
   body {
     font-family: var(--font-sans);
     background-color: var(--bg-canvas);
-    color: #e2e8f0;
+    color: var(--text-primary);
     overflow-x: hidden;
     letter-spacing: -0.01em;
     font-size: 0.95rem; /* ~15.2px base */
     line-height: 1.5;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   code, pre, .font-mono {
@@ -45,23 +190,23 @@
   }
 }
 
-/* Refined Dark Scrollbars */
+/* Dynamic Dark Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #080a0f;
+  background: var(--scrollbar-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e2638;
+  background: var(--scrollbar-thumb);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Animations */
