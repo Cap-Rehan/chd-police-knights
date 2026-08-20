@@ -58,43 +58,42 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
           activeListing.category === 'Weapons/Exploits' ? 'initial-access-broker' : 'fraudster'
         ],
         description: `Actor identified from ${activeListing.source}. Classification: ${activeListing.classification} (Confidence: ${(activeListing.confidence * 100).toFixed(0)}%). Cluster: ${activeListing.resolvedIdentityCluster || 'UNASSIGNED'}`,
-        aliases: activeListing.linkedAliases ? activeListing.linkedAliases.map(a => `${a.alias} (${a.platform})`) : [activeListing.vendor]
+        aliases: [
+          activeListing.vendor,
+          ...(activeListing.linkedAliases ? activeListing.linkedAliases.map(a => a.alias) : [])
+        ]
       },
-      ...activeListing.extracted.wallets.map((w, idx) => ({
+      ...(activeListing.extracted.wallets.map(w => ({
         type: "indicator",
         spec_version: "2.1",
-        id: `indicator--wallet-${idx}-${activeListing.id.toLowerCase()}`,
+        id: `indicator--wallet-${w.address.slice(0, 10).toLowerCase().replace(/[^a-z0-9]/g, '')}`,
         created: "2024-08-19T10:55:00.000Z",
         modified: "2024-08-19T10:55:00.000Z",
-        name: `Cryptocurrency Wallet: ${w.currency} - ${w.address}`,
-        pattern: `[user-account:account_login = '${w.address}']`,
+        name: `${w.currency} Deposit Wallet Indicator`,
+        pattern: `[crypto-currency-wallet:address = '${w.address}']`,
         pattern_type: "stix",
-        pattern_version: "2.1",
-        description: `Flagged ${w.currency} address associated with ${activeListing.vendor} on ${activeListing.source}. (Tainted: ${w.isTainted})`,
-        valid_from: "2024-08-19T10:55:00.000Z"
-      })),
+        valid_from: "2024-08-19T00:00:00Z"
+      }))),
       ...(activeListing.extracted.pgpKey ? [{
         type: "indicator",
         spec_version: "2.1",
-        id: `indicator--pgp-${activeListing.id.toLowerCase()}`,
+        id: "indicator--pgp-fingerprint-9921b",
         created: "2024-08-19T10:55:00.000Z",
         modified: "2024-08-19T10:55:00.000Z",
-        name: `PGP Fingerprint: ${activeListing.extracted.pgpKey.fingerprint}`,
-        pattern: `[x509-certificate:hashes.SHA-1 = '${activeListing.extracted.pgpKey.keyId}']`,
+        name: "PGP Public Key Fingerprint",
+        pattern: `[user-account:credential_keys.pgp_key = '${activeListing.extracted.pgpKey.fingerprint}']`,
         pattern_type: "stix",
-        pattern_version: "2.1",
-        description: `Cryptographic PGP 4096-bit public key used for cross-platform identity resolution and signing.`,
-        valid_from: "2024-08-19T10:55:00.000Z"
+        valid_from: "2024-08-19T00:00:00Z"
       }] : []),
       {
         type: "relationship",
         spec_version: "2.1",
-        id: `relationship--${activeListing.id.toLowerCase()}-attribution`,
+        id: "relationship--781f8c02-e221-4f12-881a-bb10928a8812",
         created: "2024-08-19T10:55:00.000Z",
         modified: "2024-08-19T10:55:00.000Z",
-        relationship_type: "attributed-to",
-        source_ref: `indicator--wallet-0-${activeListing.id.toLowerCase()}`,
-        target_ref: `threat-actor--${activeListing.vendor.toLowerCase().replace(/[^a-z0-9]/g, '-')}`
+        relationship_type: "indicates",
+        source_ref: `threat-actor--${activeListing.vendor.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+        target_ref: "identity--c7a10291-8891-419b-b891-10298a0018f2"
       }
     ]
   };
@@ -112,29 +111,47 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `stix2.1_${activeListing.id}.json`;
+    a.download = `stix_2.1_bundle_${activeListing.vendor.toLowerCase()}_${activeListing.id}.json`;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       
-      {/* Top Banner & Case Selector */}
-      <div className="bg-[#0e121a] border border-[#1c2333] rounded-2xl p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
+      {/* Top Banner & Control Strip */}
+      <div
+        className="rounded-2xl p-6 shadow-xs flex flex-wrap items-center justify-between gap-4 border"
+        style={{
+          backgroundColor: 'var(--bg-card)',
+          borderColor: 'var(--border-subtle)',
+        }}
+      >
         
-        {/* Left Info */}
+        {/* Title & Schema Metadata */}
         <div className="flex items-center gap-4">
-          <div className="h-12 w-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0 shadow-xs">
+          <div
+            className="h-12 w-12 rounded-2xl border flex items-center justify-center shrink-0 shadow-xs"
+            style={{
+              backgroundColor: 'var(--bg-accent-subtle)',
+              borderColor: 'var(--border-accent)',
+              color: 'var(--accent-primary)',
+            }}
+          >
             <FileCode className="h-6 w-6" />
           </div>
           <div>
             <div className="flex items-center gap-3">
-              <h2 className="text-lg font-bold text-slate-100 font-sans tracking-wide">
-                OASIS STIX 2.1 Threat Intel Interchange Hub
+              <h2
+                className="text-lg font-bold font-sans tracking-wide"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                OASIS STIX 2.1 Interoperable Threat Intel Hub
               </h2>
               <span className="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                COURT ADMISSIBLE
+                OASIS STIX 2.1 Spec
               </span>
             </div>
             <p className="text-sm text-slate-400 font-sans mt-0.5">
@@ -153,10 +170,15 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
                 if (found) onSelectListing(found);
               }}
               aria-label="Select Target Investigation Case"
-              className="appearance-none bg-[#141924] text-slate-200 text-sm font-mono pl-3.5 pr-9 py-2.5 rounded-xl border border-[#20283d] focus:border-indigo-500/60 focus:outline-none cursor-pointer font-medium"
+              className="appearance-none text-sm font-mono pl-3.5 pr-9 py-2.5 rounded-xl border focus:outline-none cursor-pointer font-medium"
+              style={{
+                backgroundColor: 'var(--bg-input)',
+                borderColor: 'var(--border-subtle)',
+                color: 'var(--text-primary)',
+              }}
             >
               {listings.map(l => (
-                <option key={l.id} value={l.id}>
+                <option key={l.id} value={l.id} style={{ backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)' }}>
                   Target: {l.vendor} ({l.id})
                 </option>
               ))}
@@ -165,24 +187,44 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
           </div>
 
           {/* View Switcher */}
-          <div className="flex items-center bg-[#141924] p-1 rounded-xl border border-[#20283d] text-xs font-mono">
+          <div
+            className="flex items-center p-1 rounded-xl border text-xs font-mono"
+            style={{
+              backgroundColor: 'var(--bg-subtle)',
+              borderColor: 'var(--border-subtle)',
+            }}
+          >
             <button
               onClick={() => setViewMode('visual')}
-              className={`px-3.5 py-1.5 rounded-lg transition-all ${
+              className="px-3.5 py-1.5 rounded-lg transition-all cursor-pointer"
+              style={
                 viewMode === 'visual'
-                  ? 'bg-indigo-600 text-white font-bold shadow-xs'
-                  : 'text-slate-400 hover:text-white'
-              }`}
+                  ? {
+                      backgroundColor: 'var(--bg-accent)',
+                      color: 'var(--accent-primary-content)',
+                      fontWeight: 700,
+                    }
+                  : {
+                      color: 'var(--text-secondary)',
+                    }
+              }
             >
               Visual Objects ({stixBundle.objects.length})
             </button>
             <button
               onClick={() => setViewMode('json')}
-              className={`px-3.5 py-1.5 rounded-lg transition-all ${
+              className="px-3.5 py-1.5 rounded-lg transition-all cursor-pointer"
+              style={
                 viewMode === 'json'
-                  ? 'bg-indigo-600 text-white font-bold shadow-xs'
-                  : 'text-slate-400 hover:text-white'
-              }`}
+                  ? {
+                      backgroundColor: 'var(--bg-accent)',
+                      color: 'var(--accent-primary-content)',
+                      fontWeight: 700,
+                    }
+                  : {
+                      color: 'var(--text-secondary)',
+                    }
+              }
             >
               Raw STIX JSON
             </button>
@@ -191,7 +233,12 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
           {/* Action Buttons */}
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-[#141924] hover:bg-[#1b2230] text-slate-200 text-xs font-mono font-medium border border-[#20283d] transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-mono font-medium border transition-colors cursor-pointer"
+            style={{
+              backgroundColor: 'var(--bg-subtle)',
+              borderColor: 'var(--border-subtle)',
+              color: 'var(--text-primary)',
+            }}
           >
             {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
             <span>{copied ? 'Copied JSON' : 'Copy JSON'}</span>
@@ -199,7 +246,11 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
 
           <button
             onClick={handleDownload}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-mono font-bold transition-all shadow-xs"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-mono font-bold transition-all shadow-xs cursor-pointer"
+            style={{
+              backgroundColor: 'var(--bg-accent)',
+              color: 'var(--accent-primary-content)',
+            }}
           >
             <Download className="h-4 w-4" />
             <span>Export .json</span>
@@ -215,12 +266,15 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
           {/* Header Strip */}
           <div className="flex items-center justify-between px-1 text-xs font-mono text-slate-400">
             <div className="flex items-center gap-2">
-              <Layers className="h-4 w-4 text-indigo-400" />
-              <span className="font-bold uppercase tracking-wider text-slate-300">
+              <Layers className="h-4 w-4" style={{ color: 'var(--accent-primary)' }} />
+              <span
+                className="font-bold uppercase tracking-wider"
+                style={{ color: 'var(--text-primary)' }}
+              >
                 STIX 2.1 Objects in Bundle ({stixBundle.objects.length})
               </span>
             </div>
-            <span>Bundle ID: <strong className="text-slate-200">{stixBundle.id}</strong></span>
+            <span>Bundle ID: <strong style={{ color: 'var(--text-primary)' }}>{stixBundle.id}</strong></span>
           </div>
 
           {/* Spacious Grid of STIX 2.1 Cards */}
@@ -228,12 +282,25 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
             {stixBundle.objects.map((obj, i) => (
               <div
                 key={i}
-                className="p-5 rounded-2xl bg-[#0e121a] border border-[#1c2333] hover:border-[#2a354d] space-y-3 transition-all shadow-xs min-w-0 overflow-hidden"
+                className="p-5 rounded-2xl border space-y-3 transition-all shadow-xs min-w-0 overflow-hidden"
+                style={{
+                  backgroundColor: 'var(--bg-card)',
+                  borderColor: 'var(--border-subtle)',
+                }}
               >
                 {/* Object Card Header */}
-                <div className="flex items-center justify-between border-b border-[#1c2333] pb-3 gap-2">
+                <div
+                  className="flex items-center justify-between border-b pb-3 gap-2"
+                  style={{ borderColor: 'var(--border-subtle)' }}
+                >
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="h-8 w-8 rounded-xl bg-[#141924] border border-[#20283d] flex items-center justify-center shrink-0">
+                    <div
+                      className="h-8 w-8 rounded-xl border flex items-center justify-center shrink-0"
+                      style={{
+                        backgroundColor: 'var(--bg-subtle)',
+                        borderColor: 'var(--border-subtle)',
+                      }}
+                    >
                       {obj.type === 'threat-actor' ? (
                         <Shield className="h-4 w-4 text-rose-400" />
                       ) : obj.type === 'indicator' ? (
@@ -241,11 +308,14 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
                       ) : obj.type === 'identity' ? (
                         <Fingerprint className="h-4 w-4 text-emerald-400" />
                       ) : (
-                        <Network className="h-4 w-4 text-indigo-400" />
+                        <Network className="h-4 w-4" style={{ color: 'var(--accent-primary)' }} />
                       )}
                     </div>
                     <div className="min-w-0">
-                      <span className="font-bold text-sm font-mono text-slate-100 uppercase tracking-wide truncate block">
+                      <span
+                        className="font-bold text-sm font-mono uppercase tracking-wide truncate block"
+                        style={{ color: 'var(--text-primary)' }}
+                      >
                         {obj.type}
                       </span>
                     </div>
@@ -258,7 +328,10 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
                 {/* Object Details */}
                 <div className="space-y-2.5 text-sm min-w-0">
                   {'name' in obj && (
-                    <div className="text-base font-bold text-slate-100 font-sans break-anywhere leading-snug">
+                    <div
+                      className="text-base font-bold font-sans break-anywhere leading-snug"
+                      style={{ color: 'var(--text-primary)' }}
+                    >
                       {obj.name}
                     </div>
                   )}
@@ -274,7 +347,15 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
                       <span className="text-xs font-mono text-slate-400 uppercase font-bold">Known Aliases:</span>
                       <div className="flex flex-wrap gap-1.5 min-w-0">
                         {obj.aliases.map((alias, aIdx) => (
-                          <span key={aIdx} className="px-2 py-0.5 rounded-md text-xs font-mono bg-[#141924] text-indigo-300 border border-[#20283d] break-all max-w-full">
+                          <span
+                            key={aIdx}
+                            className="px-2 py-0.5 rounded-md text-xs font-mono border break-all max-w-full"
+                            style={{
+                              backgroundColor: 'var(--bg-accent-subtle)',
+                              borderColor: 'var(--border-accent)',
+                              color: 'var(--accent-primary-text)',
+                            }}
+                          >
                             {alias}
                           </span>
                         ))}
@@ -285,16 +366,30 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
                   {'pattern' in obj && (
                     <div className="pt-1 min-w-0">
                       <div className="text-[11px] font-mono text-slate-400 uppercase font-bold mb-1">STIX Indicator Pattern:</div>
-                      <div className="text-xs font-mono text-indigo-300 bg-black/60 p-2.5 rounded-xl border border-[#1c2333] break-all leading-relaxed whitespace-pre-wrap">
+                      <div
+                        className="text-xs font-mono p-2.5 rounded-xl border break-all leading-relaxed whitespace-pre-wrap"
+                        style={{
+                          backgroundColor: 'rgba(0,0,0,0.4)',
+                          borderColor: 'var(--border-subtle)',
+                          color: 'var(--accent-primary-text)',
+                        }}
+                      >
                         {obj.pattern}
                       </div>
                     </div>
                   )}
 
                   {'relationship_type' in obj && (
-                    <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs font-mono text-indigo-300 flex items-center justify-between gap-2 min-w-0">
+                    <div
+                      className="p-2.5 rounded-xl border text-xs font-mono flex items-center justify-between gap-2 min-w-0"
+                      style={{
+                        backgroundColor: 'var(--bg-accent-subtle)',
+                        borderColor: 'var(--border-accent)',
+                        color: 'var(--accent-primary-text)',
+                      }}
+                    >
                       <span className="break-all">Relationship: <strong>{obj.relationship_type}</strong></span>
-                      <Share2 className="h-4 w-4 text-indigo-400 shrink-0" />
+                      <Share2 className="h-4 w-4 shrink-0" style={{ color: 'var(--accent-primary)' }} />
                     </div>
                   )}
                 </div>
@@ -306,12 +401,28 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
         </div>
       ) : (
         /* Full-page Raw JSON Viewer */
-        <div className="bg-[#06080c] border border-[#1c2333] rounded-2xl p-6 shadow-xs space-y-3">
-          <div className="flex items-center justify-between pb-3 border-b border-[#1c2333] text-xs font-mono text-slate-400">
+        <div
+          className="rounded-2xl p-6 shadow-xs space-y-3 border"
+          style={{
+            backgroundColor: 'var(--bg-card)',
+            borderColor: 'var(--border-subtle)',
+          }}
+        >
+          <div
+            className="flex items-center justify-between pb-3 border-b text-xs font-mono text-slate-400"
+            style={{ borderColor: 'var(--border-subtle)' }}
+          >
             <span>Standardized OASIS STIX 2.1 JSON Schema Specification</span>
-            <span className="text-indigo-400">{stixJsonString.split('\n').length} lines</span>
+            <span style={{ color: 'var(--accent-primary-text)' }}>{stixJsonString.split('\n').length} lines</span>
           </div>
-          <pre className="p-4 rounded-xl bg-[#080a0f] border border-[#141924] text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed max-h-[600px]">
+          <pre
+            className="p-4 rounded-xl border text-xs font-mono overflow-x-auto leading-relaxed max-h-[600px]"
+            style={{
+              backgroundColor: 'var(--bg-canvas)',
+              borderColor: 'var(--border-subtle)',
+              color: 'var(--text-primary)',
+            }}
+          >
             {stixJsonString}
           </pre>
         </div>

@@ -158,19 +158,42 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
     <div className="space-y-6 animate-in fade-in duration-200">
       
       {/* Top Banner & Pipeline Controller */}
-      <div className="bg-[#0e121a] border border-[#1c2333] rounded-2xl p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
+      <div
+        className="rounded-2xl p-6 shadow-xs flex flex-wrap items-center justify-between gap-4 border"
+        style={{
+          backgroundColor: 'var(--bg-card)',
+          borderColor: 'var(--border-subtle)',
+        }}
+      >
         
         {/* Left Info */}
         <div className="flex items-center gap-4">
-          <div className="h-12 w-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0 shadow-xs">
+          <div
+            className="h-12 w-12 rounded-2xl border flex items-center justify-center shrink-0 shadow-xs"
+            style={{
+              backgroundColor: 'var(--bg-accent-subtle)',
+              borderColor: 'var(--border-accent)',
+              color: 'var(--accent-primary)',
+            }}
+          >
             <Cpu className="h-6 w-6" />
           </div>
           <div>
             <div className="flex items-center gap-3">
-              <h2 className="text-lg font-bold text-slate-100 font-sans tracking-wide">
+              <h2
+                className="text-lg font-bold font-sans tracking-wide"
+                style={{ color: 'var(--text-primary)' }}
+              >
                 DarkScope Autonomous Multi-Agent Pipeline Simulator
               </h2>
-              <span className="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              <span
+                className="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold border"
+                style={{
+                  backgroundColor: 'var(--bg-accent-badge)',
+                  borderColor: 'var(--border-accent)',
+                  color: 'var(--accent-primary-text)',
+                }}
+              >
                 LangGraph v2.1
               </span>
             </div>
@@ -189,10 +212,15 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
               onChange={(e) => setSelectedListingId(e.target.value)}
               disabled={isRunning}
               aria-label="Select Target Investigation Case for Simulation"
-              className="appearance-none bg-[#141924] text-slate-200 text-sm font-mono pl-3.5 pr-9 py-2.5 rounded-xl border border-[#20283d] focus:border-indigo-500/60 focus:outline-none cursor-pointer font-medium disabled:opacity-50"
+              className="appearance-none text-sm font-mono pl-3.5 pr-9 py-2.5 rounded-xl border focus:outline-none cursor-pointer font-medium disabled:opacity-50"
+              style={{
+                backgroundColor: 'var(--bg-input)',
+                borderColor: 'var(--border-subtle)',
+                color: 'var(--text-primary)',
+              }}
             >
               {listings.map(l => (
-                <option key={l.id} value={l.id}>
+                <option key={l.id} value={l.id} style={{ backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)' }}>
                   Target: {l.vendor} ({l.id})
                 </option>
               ))}
@@ -203,7 +231,12 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
           {!isRunning ? (
             <button
               onClick={() => runPipeline(activeListing)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-mono font-bold transition-all shadow-xs"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-mono font-bold transition-all shadow-xs cursor-pointer"
+              style={{
+                backgroundColor: 'var(--bg-accent)',
+                color: 'var(--accent-primary-content)',
+                boxShadow: 'var(--accent-glow)',
+              }}
             >
               <Play className="h-4 w-4 fill-current" />
               <span>Execute Pipeline</span>
@@ -214,7 +247,7 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
                 if (cancelRef.current) cancelRef.current();
                 setIsRunning(false);
               }}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-sm font-mono font-bold transition-all shadow-xs"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-sm font-mono font-bold transition-all shadow-xs cursor-pointer"
             >
               <Square className="h-4 w-4 fill-current" />
               <span>Abort Pipeline</span>
@@ -234,32 +267,60 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
           return (
             <div
               key={stage.id}
-              className={`p-4 rounded-2xl border transition-all ${
+              className="p-4 rounded-2xl border transition-all"
+              style={
                 status === 'DONE'
-                  ? 'bg-[#0e161c] border-emerald-500/30 text-slate-200'
+                  ? {
+                      backgroundColor: 'var(--bg-card)',
+                      borderColor: 'rgba(16, 185, 129, 0.4)',
+                      color: 'var(--text-primary)',
+                    }
                   : isCurrent
-                  ? 'bg-[#101424] border-indigo-500/60 text-white shadow-lg ring-1 ring-indigo-500/30'
-                  : 'bg-[#0e121a] border-[#1c2333] text-slate-400 opacity-80'
-              }`}
+                  ? {
+                      backgroundColor: 'var(--bg-card)',
+                      borderColor: 'var(--border-accent)',
+                      color: 'var(--text-primary)',
+                      boxShadow: 'var(--accent-glow)',
+                    }
+                  : {
+                      backgroundColor: 'var(--bg-card)',
+                      borderColor: 'var(--border-subtle)',
+                      color: 'var(--text-secondary)',
+                      opacity: 0.8,
+                    }
+              }
             >
               <div className="flex items-center justify-between mb-2">
-                <div className={`h-8 w-8 rounded-xl flex items-center justify-center ${
-                  status === 'DONE' ? 'bg-emerald-500/20 text-emerald-400' :
-                  isCurrent ? 'bg-indigo-500/20 text-indigo-300 animate-pulse' :
-                  'bg-[#141924] text-slate-500'
-                }`}>
+                <div
+                  className="h-8 w-8 rounded-xl flex items-center justify-center"
+                  style={
+                    status === 'DONE'
+                      ? { backgroundColor: 'rgba(16, 185, 129, 0.2)', color: '#34d399' }
+                      : isCurrent
+                      ? { backgroundColor: 'var(--bg-accent-subtle)', color: 'var(--accent-primary-text)' }
+                      : { backgroundColor: 'var(--bg-subtle)', color: 'var(--text-muted)' }
+                  }
+                >
                   <Icon className="h-4 w-4" />
                 </div>
-                <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
-                  status === 'DONE' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                  isCurrent ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' :
-                  'bg-[#141924] text-slate-500'
-                }`}>
+                <span
+                  className="text-[10px] font-mono font-bold px-2 py-0.5 rounded border"
+                  style={
+                    status === 'DONE'
+                      ? { backgroundColor: 'rgba(16, 185, 129, 0.1)', color: '#34d399', borderColor: 'rgba(16, 185, 129, 0.3)' }
+                      : isCurrent
+                      ? { backgroundColor: 'var(--bg-accent-badge)', color: 'var(--accent-primary-text)', borderColor: 'var(--border-accent)' }
+                      : { backgroundColor: 'var(--bg-subtle)', color: 'var(--text-muted)', borderColor: 'var(--border-subtle)' }
+                  }
+                >
                   {status}
                 </span>
               </div>
 
-              <div className="font-bold text-sm font-sans text-slate-100">
+              <div
+                className="font-bold text-sm font-sans"
+                style={{ color: 'var(--text-primary)' }}
+              >
                 {idx + 1}. {stage.name}
               </div>
               <div className="text-xs text-slate-400 font-mono mt-0.5">
@@ -274,26 +335,55 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Left Column (5 cols): Structured Entity State Snapshot */}
-        <div className="lg:col-span-5 bg-[#0e121a] border border-[#1c2333] rounded-2xl p-6 shadow-xs space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[#1c2333]">
-            <h3 className="text-sm font-bold text-slate-100 font-mono uppercase tracking-wider">
+        <div
+          className="lg:col-span-5 rounded-2xl p-6 shadow-xs space-y-4 border"
+          style={{
+            backgroundColor: 'var(--bg-card)',
+            borderColor: 'var(--border-subtle)',
+          }}
+        >
+          <div
+            className="flex items-center justify-between pb-3 border-b"
+            style={{ borderColor: 'var(--border-subtle)' }}
+          >
+            <h3
+              className="text-sm font-bold font-mono uppercase tracking-wider"
+              style={{ color: 'var(--text-primary)' }}
+            >
               Live State Machine Snapshot
             </h3>
             <span className="text-xs font-mono text-slate-400">
-              State: <strong className="text-indigo-300">{activeListing.id}</strong>
+              State: <strong style={{ color: 'var(--accent-primary-text)' }}>{activeListing.id}</strong>
             </span>
           </div>
 
           <div className="space-y-3 font-mono text-xs">
             {/* Raw Target */}
-            <div className="p-3.5 rounded-xl bg-[#121622] border border-[#1c2333] space-y-1">
+            <div
+              className="p-3.5 rounded-xl border space-y-1"
+              style={{
+                backgroundColor: 'var(--bg-subtle)',
+                borderColor: 'var(--border-subtle)',
+              }}
+            >
               <span className="text-[10px] text-slate-500 uppercase font-bold">Target Identity & Vendor</span>
-              <div className="text-sm font-bold text-slate-100 font-sans">{activeListing.vendor}</div>
+              <div
+                className="text-sm font-bold font-sans"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                {activeListing.vendor}
+              </div>
               <div className="text-slate-400 text-xs">{activeListing.itemTitle}</div>
             </div>
 
             {/* Entity Fingerprints */}
-            <div className="p-3.5 rounded-xl bg-[#121622] border border-[#1c2333] space-y-2">
+            <div
+              className="p-3.5 rounded-xl border space-y-2"
+              style={{
+                backgroundColor: 'var(--bg-subtle)',
+                borderColor: 'var(--border-subtle)',
+              }}
+            >
               <span className="text-[10px] text-slate-500 uppercase font-bold">Extracted Identity Fingerprints</span>
               {activeListing.extracted.pgpKey && (
                 <div className="text-emerald-400 truncate">
@@ -308,12 +398,22 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
             </div>
 
             {/* Resolved Rebrand Cluster */}
-            <div className="p-3.5 rounded-xl bg-[#121622] border border-[#1c2333] space-y-2">
+            <div
+              className="p-3.5 rounded-xl border space-y-2"
+              style={{
+                backgroundColor: 'var(--bg-subtle)',
+                borderColor: 'var(--border-subtle)',
+              }}
+            >
               <span className="text-[10px] text-slate-500 uppercase font-bold">Cross-Platform Resolution</span>
               {activeListing.linkedAliases && activeListing.linkedAliases.length > 0 ? (
                 <div className="space-y-1">
                   {activeListing.linkedAliases.map((a, idx) => (
-                    <div key={idx} className="flex items-center justify-between text-indigo-300 text-xs">
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between text-xs"
+                      style={{ color: 'var(--accent-primary-text)' }}
+                    >
                       <span>{a.alias} ({a.platform})</span>
                       <span className="text-emerald-400 font-bold">{(a.confidence * 100).toFixed(0)}% MATCH</span>
                     </div>
@@ -325,7 +425,13 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
             </div>
 
             {/* STIX 2.1 State */}
-            <div className="p-3.5 rounded-xl bg-[#121622] border border-[#1c2333] space-y-1">
+            <div
+              className="p-3.5 rounded-xl border space-y-1"
+              style={{
+                backgroundColor: 'var(--bg-subtle)',
+                borderColor: 'var(--border-subtle)',
+              }}
+            >
               <span className="text-[10px] text-slate-500 uppercase font-bold">STIX 2.1 State Reference</span>
               <div className="text-slate-300 truncate">{activeListing.stixBundleId}</div>
             </div>
@@ -333,10 +439,21 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
         </div>
 
         {/* Right Column (7 cols): Terminal Stream Workbench */}
-        <div className="lg:col-span-7 bg-[#06080c] border border-[#1c2333] rounded-2xl shadow-xs overflow-hidden flex flex-col h-[560px]">
-          
+        <div
+          className="lg:col-span-7 rounded-2xl shadow-xs overflow-hidden flex flex-col h-[560px] border"
+          style={{
+            backgroundColor: 'var(--bg-canvas)',
+            borderColor: 'var(--border-subtle)',
+          }}
+        >
           {/* Terminal Header */}
-          <div className="p-4 bg-[#0a0d14] border-b border-[#1c2333] flex items-center justify-between">
+          <div
+            className="p-4 border-b flex items-center justify-between"
+            style={{
+              backgroundColor: 'var(--bg-card)',
+              borderColor: 'var(--border-subtle)',
+            }}
+          >
             <div className="flex items-center gap-2.5 font-mono text-xs text-slate-300">
               <div className="flex items-center gap-1.5">
                 <span className="h-3 w-3 rounded-full bg-rose-500/80"></span>
@@ -350,7 +467,11 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
               <button
                 onClick={handleCopyLogs}
                 disabled={logs.length === 0}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#141924] hover:bg-[#1b2230] text-slate-300 text-xs font-mono border border-[#20283d] transition-colors disabled:opacity-40"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-slate-300 text-xs font-mono border transition-colors disabled:opacity-40 cursor-pointer"
+                style={{
+                  backgroundColor: 'var(--bg-subtle)',
+                  borderColor: 'var(--border-subtle)',
+                }}
               >
                 {copiedLogs ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
                 <span>{copiedLogs ? 'Copied' : 'Copy'}</span>
@@ -358,7 +479,7 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
 
               <button
                 onClick={() => setLogs([])}
-                className="p-1 rounded-lg hover:bg-[#141924] text-slate-400 hover:text-white transition-colors"
+                className="p-1 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
                 title="Clear Terminal"
               >
                 <RotateCcw className="h-3.5 w-3.5" />
@@ -367,7 +488,10 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
           </div>
 
           {/* Terminal Logs Content */}
-          <div className="flex-1 p-5 overflow-y-auto font-mono text-xs space-y-2 leading-relaxed bg-[#06080c]">
+          <div
+            className="flex-1 p-5 overflow-y-auto font-mono text-xs space-y-2 leading-relaxed"
+            style={{ backgroundColor: 'var(--bg-canvas)' }}
+          >
             {logs.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-slate-600 space-y-2">
                 <Terminal className="h-8 w-8 text-slate-700" />
@@ -393,7 +517,13 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
           </div>
 
           {/* Terminal Footer */}
-          <div className="p-3 bg-[#0a0d14] border-t border-[#1c2333] flex items-center justify-between text-[11px] font-mono text-slate-500">
+          <div
+            className="p-3 border-t flex items-center justify-between text-[11px] font-mono text-slate-500"
+            style={{
+              backgroundColor: 'var(--bg-card)',
+              borderColor: 'var(--border-subtle)',
+            }}
+          >
             <span>LangGraph Agent Stream: {isRunning ? 'ORCHESTRATING...' : 'IDLE'}</span>
             <span>Logs: {logs.length} events</span>
           </div>

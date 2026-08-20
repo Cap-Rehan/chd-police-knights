@@ -83,15 +83,36 @@ export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
   };
 
   return (
-    <div className="bg-[#0e121a] border border-[#1c2333] rounded-2xl overflow-hidden shadow-xs flex flex-col">
-      
+    <div
+      className="rounded-2xl overflow-hidden shadow-xs flex flex-col border"
+      style={{
+        backgroundColor: 'var(--bg-card)',
+        borderColor: 'var(--border-subtle)',
+      }}
+    >
       {/* Table Header & Filter Tabs */}
-      <div className="p-4 border-b border-[#1c2333] bg-[#0e121a] flex flex-wrap items-center justify-between gap-3">
+      <div
+        className="p-4 border-b flex flex-wrap items-center justify-between gap-3"
+        style={{
+          backgroundColor: 'var(--bg-card)',
+          borderColor: 'var(--border-subtle)',
+        }}
+      >
         <div className="flex items-center gap-2.5">
-          <span className="text-sm font-bold uppercase tracking-wider text-slate-200 font-mono">
+          <span
+            className="text-sm font-bold uppercase tracking-wider font-mono"
+            style={{ color: 'var(--text-primary)' }}
+          >
             Active Targets
           </span>
-          <span className="text-xs font-mono text-slate-400 bg-[#141924] px-2 py-0.5 rounded-md border border-[#20283d]">
+          <span
+            className="text-xs font-mono px-2 py-0.5 rounded-md border"
+            style={{
+              backgroundColor: 'var(--bg-subtle)',
+              borderColor: 'var(--border-subtle)',
+              color: 'var(--text-secondary)',
+            }}
+          >
             {filteredListings.length} matching leads
           </span>
         </div>
@@ -100,56 +121,111 @@ export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
         <div className="flex items-center gap-1.5 flex-wrap">
           <button
             onClick={() => onSelectFilter('ALL')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+            className="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer border"
+            style={
               selectedFilter === 'ALL'
-                ? 'bg-indigo-600 text-white shadow-xs font-semibold'
-                : 'bg-[#141924] text-slate-300 hover:text-white border border-[#20283d]'
-            }`}
+                ? {
+                    backgroundColor: 'var(--bg-accent)',
+                    color: 'var(--accent-primary-content)',
+                    borderColor: 'var(--bg-accent)',
+                    fontWeight: 600,
+                  }
+                : {
+                    backgroundColor: 'var(--bg-subtle)',
+                    color: 'var(--text-secondary)',
+                    borderColor: 'var(--border-subtle)',
+                  }
+            }
           >
             All Targets
           </button>
 
           <button
             onClick={() => onSelectFilter('REBRANDS')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium flex items-center gap-1.5 transition-all ${
+            className="px-3 py-1.5 rounded-lg text-xs font-mono font-medium flex items-center gap-1.5 transition-all cursor-pointer border"
+            style={
               selectedFilter === 'REBRANDS'
-                ? 'bg-indigo-600 text-white shadow-xs font-semibold'
-                : 'bg-[#141924] text-indigo-300 hover:text-white border border-indigo-500/30'
-            }`}
+                ? {
+                    backgroundColor: 'var(--bg-accent)',
+                    color: 'var(--accent-primary-content)',
+                    borderColor: 'var(--bg-accent)',
+                    fontWeight: 600,
+                  }
+                : {
+                    backgroundColor: 'var(--bg-accent-subtle)',
+                    color: 'var(--accent-primary-text)',
+                    borderColor: 'var(--border-accent)',
+                  }
+            }
           >
-            <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+            <Sparkles
+              className="h-3.5 w-3.5"
+              style={{
+                color: selectedFilter === 'REBRANDS' ? 'var(--accent-primary-content)' : 'var(--accent-primary)',
+              }}
+            />
             <span>Rebrands Linked</span>
           </button>
 
           <button
             onClick={() => onSelectFilter('ILLICIT')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+            className="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer border"
+            style={
               selectedFilter === 'ILLICIT'
-                ? 'bg-rose-600 text-white shadow-xs font-semibold'
-                : 'bg-[#141924] text-slate-300 hover:text-rose-300 border border-[#20283d]'
-            }`}
+                ? {
+                    backgroundColor: '#e11d48',
+                    color: '#ffffff',
+                    borderColor: '#e11d48',
+                    fontWeight: 600,
+                  }
+                : {
+                    backgroundColor: 'var(--bg-subtle)',
+                    color: 'var(--text-secondary)',
+                    borderColor: 'var(--border-subtle)',
+                  }
+            }
           >
             Illicit Contraband
           </button>
 
           <button
             onClick={() => onSelectFilter('SCAMS')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+            className="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer border"
+            style={
               selectedFilter === 'SCAMS'
-                ? 'bg-amber-600 text-white shadow-xs font-semibold'
-                : 'bg-[#141924] text-slate-300 hover:text-amber-300 border border-[#20283d]'
-            }`}
+                ? {
+                    backgroundColor: '#d97706',
+                    color: '#ffffff',
+                    borderColor: '#d97706',
+                    fontWeight: 600,
+                  }
+                : {
+                    backgroundColor: 'var(--bg-subtle)',
+                    color: 'var(--text-secondary)',
+                    borderColor: 'var(--border-subtle)',
+                  }
+            }
           >
             Scams Only
           </button>
 
           <button
             onClick={() => onSelectFilter('PGP')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+            className="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer border"
+            style={
               selectedFilter === 'PGP'
-                ? 'bg-emerald-600 text-white shadow-xs font-semibold'
-                : 'bg-[#141924] text-slate-300 hover:text-emerald-300 border border-[#20283d]'
-            }`}
+                ? {
+                    backgroundColor: '#059669',
+                    color: '#ffffff',
+                    borderColor: '#059669',
+                    fontWeight: 600,
+                  }
+                : {
+                    backgroundColor: 'var(--bg-subtle)',
+                    color: 'var(--text-secondary)',
+                    borderColor: 'var(--border-subtle)',
+                  }
+            }
           >
             PGP Verified
           </button>
@@ -160,7 +236,14 @@ export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-sm">
           <thead>
-            <tr className="border-b border-[#1c2333] bg-[#090b10]/80 text-[11px] uppercase font-bold text-slate-400 font-mono tracking-wider">
+            <tr
+              className="border-b text-[11px] uppercase font-bold font-mono tracking-wider"
+              style={{
+                backgroundColor: 'var(--bg-header)',
+                borderColor: 'var(--border-subtle)',
+                color: 'var(--text-muted)',
+              }}
+            >
               <th className="py-3.5 px-5">Vendor & Platform</th>
               <th className="py-3.5 px-4">Entity Resolution</th>
               <th className="py-3.5 px-4">Contraband Summary</th>
@@ -169,7 +252,10 @@ export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
               <th className="py-3.5 px-5 text-right">Inspect</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#1c2333]/70">
+          <tbody
+            className="divide-y"
+            style={{ borderColor: 'var(--border-subtle)' }}
+          >
             {filteredListings.length === 0 ? (
               <tr>
                 <td colSpan={6} className="py-12 text-center text-slate-500 font-mono text-sm">
@@ -181,11 +267,23 @@ export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
                 <tr
                   key={listing.id}
                   onClick={() => onViewDossier(listing)}
-                  className="cursor-pointer transition-colors duration-150 hover:bg-[#141924] group"
+                  className="cursor-pointer transition-colors duration-150 group"
+                  style={{
+                    borderBottomColor: 'var(--border-subtle)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--bg-card-hover)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
                 >
                   {/* 1. Vendor Alias & Discovered Source */}
                   <td className="py-3.5 px-5">
-                    <div className="font-bold text-slate-100 font-mono text-sm group-hover:text-indigo-300 transition-colors">
+                    <div
+                      className="font-bold font-mono text-sm transition-colors"
+                      style={{ color: 'var(--text-primary)' }}
+                    >
                       {listing.vendor}
                     </div>
                     <div className="text-xs text-slate-400 font-mono mt-0.5 flex items-center gap-1.5">
@@ -198,12 +296,26 @@ export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
                   {/* 2. Entity Resolution & Cross-Platform Rebrand Badge */}
                   <td className="py-3.5 px-4 whitespace-nowrap">
                     {listing.rebrandDetected ? (
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold font-mono bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
-                        <Network className="h-3.5 w-3.5 text-indigo-400" />
+                      <span
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold font-mono border"
+                        style={{
+                          backgroundColor: 'var(--bg-accent-subtle)',
+                          borderColor: 'var(--border-accent)',
+                          color: 'var(--accent-primary-text)',
+                        }}
+                      >
+                        <Network className="h-3.5 w-3.5" style={{ color: 'var(--accent-primary)' }} />
                         <span>Linked ({listing.linkedAliases?.length || 2} Personas)</span>
                       </span>
                     ) : (
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-mono text-slate-400 bg-[#121622] border border-[#1c2333]">
+                      <span
+                        className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-mono border"
+                        style={{
+                          backgroundColor: 'var(--bg-subtle)',
+                          borderColor: 'var(--border-subtle)',
+                          color: 'var(--text-secondary)',
+                        }}
+                      >
                         Standalone
                       </span>
                     )}
@@ -211,17 +323,21 @@ export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
 
                   {/* 3. Item Title & Category */}
                   <td className="py-3.5 px-4 max-w-xs md:max-w-md">
-                    <div className="text-slate-200 text-sm truncate font-sans" title={listing.itemTitle}>
+                    <div
+                      className="text-sm truncate font-sans"
+                      style={{ color: 'var(--text-primary)' }}
+                      title={listing.itemTitle}
+                    >
                       {listing.itemTitle}
                     </div>
                     <div className="text-xs text-slate-400 font-mono mt-0.5">
-                      Category: <span className="text-slate-300">{listing.category}</span>
+                      Category: <span style={{ color: 'var(--text-secondary)' }}>{listing.category}</span>
                     </div>
                   </td>
 
                   {/* 4. Extracted Assets (Wallets & PGP) */}
                   <td className="py-3.5 px-4 whitespace-nowrap font-mono text-xs">
-                    <div className="flex items-center gap-2.5 text-slate-300">
+                    <div className="flex items-center gap-2.5">
                       {listing.extracted.wallets.length > 0 && (
                         <span className="inline-flex items-center gap-1 text-xs text-amber-400 font-medium">
                           <Coins className="h-3.5 w-3.5" />
@@ -255,7 +371,11 @@ export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
                           e.stopPropagation();
                           onViewDossier(listing);
                         }}
-                        className="p-2 rounded-lg bg-[#141924] hover:bg-indigo-600 text-slate-300 hover:text-white border border-[#20283d] transition-all"
+                        className="p-2 rounded-lg text-slate-300 hover:text-white border transition-all cursor-pointer"
+                        style={{
+                          backgroundColor: 'var(--bg-subtle)',
+                          borderColor: 'var(--border-subtle)',
+                        }}
                         title="Open Investigation Drawer"
                       >
                         <Eye className="h-4 w-4" />
@@ -263,7 +383,11 @@ export const ThreatStreamTable: React.FC<ThreatStreamTableProps> = ({
 
                       <button
                         onClick={(e) => handleEnrichClick(e, listing)}
-                        className="p-2 rounded-lg bg-[#141924] hover:bg-[#1e2535] text-slate-400 hover:text-amber-400 border border-[#20283d] transition-all"
+                        className="p-2 rounded-lg text-slate-400 hover:text-amber-400 border transition-all cursor-pointer"
+                        style={{
+                          backgroundColor: 'var(--bg-subtle)',
+                          borderColor: 'var(--border-subtle)',
+                        }}
                         title="Trigger Instant On-Chain Forensic Lookup"
                       >
                         {enrichedId === listing.id ? (
