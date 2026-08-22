@@ -4,7 +4,7 @@ A modern, high-performance Cyber Threat Intelligence (CTI) and darknet entity re
 
 ---
 
-## 🌟 Views & Capabilities
+## Views & Capabilities
 
 1. **Threat Stream & Triage Table (`ThreatStreamTable.tsx`)**
    - High-density listing stream with urgency indicators, vendor aliases, confidence bars, and threat score meters.
@@ -39,7 +39,7 @@ A modern, high-performance Cyber Threat Intelligence (CTI) and darknet entity re
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Development
 ```bash
