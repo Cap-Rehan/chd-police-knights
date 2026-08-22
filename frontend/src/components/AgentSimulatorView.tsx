@@ -184,7 +184,7 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
                 className="text-lg font-bold font-sans tracking-wide"
                 style={{ color: 'var(--text-primary)' }}
               >
-                DarkScope Autonomous Multi-Agent Pipeline Simulator
+                TorIntel Autonomous Multi-Agent Pipeline Simulator
               </h2>
               <span
                 className="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold border"
@@ -460,7 +460,7 @@ export const AgentSimulatorView: React.FC<AgentSimulatorViewProps> = ({
                 <span className="h-3 w-3 rounded-full bg-amber-500/80"></span>
                 <span className="h-3 w-3 rounded-full bg-emerald-500/80"></span>
               </div>
-              <span className="ml-2 text-slate-400 font-semibold">darkscope-agent-terminal: ~ langgraph.log</span>
+              <span className="ml-2 text-slate-400 font-semibold">torintel-agent-terminal: ~ langgraph.log</span>
             </div>
 
             <div className="flex items-center gap-2">

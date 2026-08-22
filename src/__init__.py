@@ -1,1 +1,1 @@
-"""CTI Multi-Agent Pipeline package."""
+"""TorIntel Multi-Agent Pipeline package."""

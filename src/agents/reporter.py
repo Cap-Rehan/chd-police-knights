@@ -22,7 +22,7 @@ class ReportAgent:
     def __init__(self, webhook_url: Optional[str] = config.ALERT_WEBHOOK_URL):
         self.webhook_url = webhook_url
         self.pipeline_identity = Identity(
-            name="CTI Multi-Agent Pipeline",
+            name="TorIntel Multi-Agent Pipeline",
             identity_class="system",
             description="Autonomous Threat Intelligence Ingestion & Classification Pipeline"
         )
@@ -134,7 +134,7 @@ class ReportAgent:
             "description": f"The multi-agent pipeline has analyzed and verified an intelligence item from `{source}`.",
             "color": embed_color,
             "fields": fields,
-            "footer": {"text": "CTI Multi-Agent Pipeline | STIX 2.1 Standardized"},
+            "footer": {"text": "TorIntel Multi-Agent Pipeline | STIX 2.1 Standardized"},
             "timestamp": datetime.utcnow().isoformat() + "Z"
         }
 

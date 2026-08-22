@@ -295,7 +295,7 @@ export const InvestigationDrawer: React.FC<InvestigationDrawerProps> = ({
                 {listing.linkedAliases && listing.linkedAliases.length > 0 ? (
                   <div className="space-y-2.5">
                     <p className="text-sm text-slate-300 leading-relaxed">
-                      DarkScope detected shared cryptographic keys and wallet overlap connecting this darknet listing across the following platforms:
+                      TorIntel detected shared cryptographic keys and wallet overlap connecting this darknet listing across the following platforms:
                     </p>
                     <div className="space-y-2.5">
                       {listing.linkedAliases.map((linked, idx) => (

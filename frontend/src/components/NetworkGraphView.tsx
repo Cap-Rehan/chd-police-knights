@@ -94,7 +94,7 @@ export const NetworkGraphView: React.FC<NetworkGraphViewProps> = ({
               className="text-xs font-bold uppercase tracking-wider font-mono flex items-center gap-2"
               style={{ color: 'var(--text-primary)' }}
             >
-              <span>DarkScope Investigation Graph</span>
+              <span>TorIntel Investigation Graph</span>
               <span
                 className="px-1.5 py-0.2 rounded text-[10px] font-mono border"
                 style={{

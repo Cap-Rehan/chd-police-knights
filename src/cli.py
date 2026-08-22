@@ -92,7 +92,7 @@ def print_result_summary(state: dict, output_dir: Optional[Path] = None):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="CTI Multi-Agent Pipeline CLI")
+    parser = argparse.ArgumentParser(description="TorIntel CTI Multi-Agent Pipeline CLI")
     parser.add_argument("--sample", action="store_true", help="Run pipeline on sample dataset in data/sample_listings.json")
     parser.add_argument("--agora", action="store_true", help="Ingest directly from Agora.csv/Agora.csv dataset")
     parser.add_argument("--agora-category", type=str, default=None, help="Filter Agora listings by category (e.g. 'Services/Hacking', 'Forgeries')")

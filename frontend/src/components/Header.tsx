@@ -54,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-3 text-sm font-sans min-w-0">
           <div className="flex items-center gap-1.5 text-slate-400 font-mono text-xs hidden sm:flex">
             <Shield className="h-4 w-4" style={{ color: 'var(--accent-primary)' }} />
-            <span>DarkScope</span>
+            <span>TorIntel</span>
             <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
           </div>
 
