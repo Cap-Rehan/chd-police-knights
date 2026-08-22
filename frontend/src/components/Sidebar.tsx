@@ -67,7 +67,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div 
                 className="flex items-center gap-3 cursor-pointer overflow-hidden min-w-0" 
                 onClick={() => onViewChange('stream')}
-                title="DarkScope Home"
+                title="TorIntel Home"
               >
                 <div
                   className="flex h-9 w-9 items-center justify-center rounded-xl border shadow-xs shrink-0"
@@ -84,7 +84,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     className="font-extrabold text-base tracking-wider uppercase font-sans"
                     style={{ color: 'var(--text-primary)' }}
                   >
-                    DARKSCOPE
+                    TORINTEL
                   </span>
                   <div className="text-xs text-slate-400 font-mono">
                     Threat Intel & SOC

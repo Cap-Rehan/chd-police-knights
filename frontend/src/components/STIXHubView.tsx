@@ -42,7 +42,7 @@ export const STIXHubView: React.FC<STIXHubViewProps> = ({
         id: "identity--c7a10291-8891-419b-b891-10298a0018f2",
         created: "2024-08-19T10:55:00.000Z",
         modified: "2024-08-19T10:55:00.000Z",
-        name: "DarkScope Entity-Resolution & Threat Intelligence Engine",
+        name: "TorIntel Entity-Resolution & Threat Intelligence Engine",
         identity_class: "system",
         description: "Autonomous Darknet Ingestion & Cross-Platform Rebrand Resolution Pipeline"
       },

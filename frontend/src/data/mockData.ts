@@ -110,7 +110,7 @@ export const mockListings: CTIListing[] = [
       }
     ],
     copilot: {
-      plainEnglishSummary: 'DarkScope Entity Resolution Engine has connected vendor "PunjabSynthetics_01" (operating on Agora) with Telegram handle "@punjab_synth_secure" and historical Bohemia profile "Chd_DarkPharma". Both profiles share the identical 4096-bit PGP fingerprint and deposit into the same high-velocity Bitcoin wallet with over $1.38M USD in on-chain turnover.',
+      plainEnglishSummary: 'TorIntel Entity Resolution Engine has connected vendor "PunjabSynthetics_01" (operating on Agora) with Telegram handle "@punjab_synth_secure" and historical Bohemia profile "Chd_DarkPharma". Both profiles share the identical 4096-bit PGP fingerprint and deposit into the same high-velocity Bitcoin wallet with over $1.38M USD in on-chain turnover.',
       threatAssessment: 'CRITICAL HIGH RISK. Active local distribution syndicate distributing synthetic controlled precursors in Chandigarh Tri-City. 3 mixer hops detected across Wasabi/Tornado pools.',
       recommendedActions: [
         {

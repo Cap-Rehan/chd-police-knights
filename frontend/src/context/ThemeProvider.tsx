@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { type ThemeMode, THEME_OPTIONS } from '../types/theme';
 import { ThemeContext } from './ThemeContext';
 
-const STORAGE_KEY = 'darkscope-color-theme';
+const STORAGE_KEY = 'torintel-color-theme';
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<ThemeMode>(() => {

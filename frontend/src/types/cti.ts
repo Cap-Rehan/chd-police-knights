@@ -86,7 +86,7 @@ export interface CTIListing {
   enrichment?: EnrichmentData;
   pipelineTrace: PipelineStep[];
   stixBundleId: string;
-  // DarkScope Entity Resolution additions:
+  // TorIntel Entity Resolution additions:
   rebrandDetected?: boolean;
   resolvedIdentityCluster?: string;
   linkedAliases?: LinkedAlias[];
