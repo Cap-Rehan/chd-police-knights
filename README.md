@@ -10,21 +10,21 @@
 
 ---
 
-## 🔒 Responsible CTI Policy
+## Responsible CTI Policy
 > **Strict Constraint:** This tool is designed exclusively for defense, law enforcement investigations, and threat intelligence operations. It operates strictly on public, historical, or synthetic labeled datasets. No live darknet/Tor scraping or illicit channels are targeted.
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
-### 1. 🧠 Autonomous Multi-Agent LangGraph Pipeline
+### 1. Autonomous Multi-Agent LangGraph Pipeline
 - **Extraction Agent:** Deterministic regex pattern matching combined with Ollama JSON Schema structured extraction for cryptocurrency wallets (BTC, XMR, ETH, USDT), 4096-bit PGP key fingerprints, onion mirrors, and communication handles (Telegram, Session, Matrix).
 - **Classification Agent:** Few-shot calibrated LLM prompting that categorizes threats into `Illicit`, `Scam`, or `Legit`, calculates confidence scores (0.00–1.00), and generates legal-grade reasoning.
 - **Entity Resolution & Rebrand Gate:** Cryptographic key and wallet fingerprint matching to correlate threat actors who rebrand across marketplace takedowns and migrations.
 - **Enrichment Agent:** Blockchain heuristics (taint analysis, multi-hop mixer detection across Wasabi/Tornado pools, high-velocity turnover analysis, sanction proximity) and external CTI feed cross-referencing.
 - **Report & Dispatch Agent:** Generates OASIS STIX 2.1 compliant JSON bundles and dispatches formatted real-time Discord/Slack incident alerts.
 
-### 2. 🖥️ Modern High-Performance SOC Dashboard
+### 2. Modern High-Performance SOC Dashboard
 - **Threat Stream & Triage Table:** Live stream of analyzed listings with category badges, vendor aliases, confidence bars, threat score meters, and status badges (`REBRAND IDENTIFIED`, `ILLICIT`, `SCAM`, `LEGIT`).
 - **Interactive Quick Filters:** Instantly filter intelligence by `All Listings`, `Rebrand Alerts`, `Illicit Threats`, `Scam Listings`, or `PGP Verified`.
 - **Criminal Network Graph Explorer:** Dynamic SVG node-edge graph exposing relationships between darknet vendors, rebrand aliases, PGP fingerprints, cryptocurrency deposit wallets, communication handles, and platform migrations.
@@ -37,7 +37,7 @@
 
 ---
 
-## 🏗 System Architecture
+## System Architecture
 
 ```mermaid
 flowchart TD
@@ -55,7 +55,7 @@ flowchart TD
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 KnightsOfRealm/
@@ -86,7 +86,7 @@ KnightsOfRealm/
 
 ---
 
-## 🚀 Quick Start Guide
+## Quick Start Guide
 
 ### 1. Prerequisites
 - **Python 3.10+**
@@ -174,7 +174,7 @@ npm run build
 
 ---
 
-## 📊 Output Artifacts & STIX 2.1 Compliance
+## Output Artifacts & STIX 2.1 Compliance
 
 OASIS STIX 2.1 threat intelligence bundles are automatically generated and saved under `output/`:
 - `output/stix_<LISTING_ID>.json`
@@ -187,7 +187,7 @@ Each bundle contains OASIS STIX 2.1 objects:
 
 ---
 
-## 🎨 Theme System
+## Theme System
 
 TorIntel includes 4 built-in dark themes:
 - **Linear Dark** *(Default)*: Deep slate background with vibrant indigo accents.
@@ -197,6 +197,6 @@ TorIntel includes 4 built-in dark themes:
 
 ---
 
-## 🛡️ License & Acknowledgments
+## License & Acknowledgments
 
 TorIntel is developed under the Apache 2.0 License. Built for ethical threat intelligence, defense operations, and cybersecurity research.
